@@ -61,6 +61,9 @@ class EventList:
     first: Optional[Event]
     last: Optional[Event]
 
+    # Note: You may ADD parameters/attributes/methods to this class as you see fit.
+    # But do not rename or remove any existing methods/attributes in this class
+
     def __init__(self) -> None:
         """Initialize a new empty event list."""
 
