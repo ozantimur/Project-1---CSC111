@@ -51,6 +51,7 @@ class AdventureGame:
     ongoing: bool  # Suggested attribute, can be removed
     _current_items: list[Item]
     _visited_locations = list[Location]
+    _points: int  # the points the player has
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
         """
@@ -75,7 +76,6 @@ class AdventureGame:
         # Suggested attributes (you can remove and track these differently if you wish to do so):
         self.current_location_id = initial_location_id  # game begins at this location
         self.ongoing = True  # whether the game is ongoing
-        self._current_items = []
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item]]:
@@ -102,7 +102,7 @@ class AdventureGame:
 
         for item_data in data["items"]:
             item_obj = Item(item_data['name'], item_data['start_position'], item_data['target_position'],
-                            item_data['target_points'])
+                            item_data['target_points'], True)
             items.append(item_obj)
 
         return locations, items
@@ -112,7 +112,6 @@ class AdventureGame:
         If no ID is provided, return the Location object associated with the current location.
         """
 
-        # TODO: Complete this method as specified
         # YOUR CODE BELOW
         if loc_id is not None:
             return self._locations[loc_id]
@@ -120,13 +119,13 @@ class AdventureGame:
             return self._locations[self.current_location_id]
 
     def inventory(self) -> list[Item]:
-        """This method returns the current inventory of the player while the game is played.
+        """Return the current inventory of the player while the game is played.
         """
-
         return self._current_items
 
-    def move(self, desired_command : str) -> bool:
-        """This method moves the player to the new location based on the command
+    def move(self, desired_command: str) -> bool:
+        """Move the player to the new location based on the command
+        Return True if the destination is valid, otherwise False
         """
         current_location = self._locations[self.current_location_id]
         if desired_command in current_location.available_commands:
@@ -134,6 +133,64 @@ class AdventureGame:
             return True
         else:
             return False
+
+    def pick_up(self, desired_item: str) -> bool:
+        """
+        Pick up the item the player wants.
+        If the desired item is within the player's current location, mutate self._current_items by appending the item,
+            and return True to represent a successful interaction
+        If the desired item is NOT within the player's current location, self._current_items remains unmuated,
+            and return False to represent an unsuccessful interaction
+
+        Mutate the item's availability correspondingly
+        """
+        if desired_item == '':
+            return False
+        else:
+            if desired_item in self._locations[self.current_location_id].items:
+                for i in range(len(self._items)):
+                    # finding the correct item using its name
+                    if self._items[i].name == desired_item:
+                        self._current_items.append(self._items[i])
+                        self._items[i].available = False
+
+                        # check if the player has picked up items that are already dropped at the target position,
+                        # if so, then the appropriate points will be deducted as the player must have received the
+                        # same amount of points by dropping the item at the target position
+                        if self._items[i].target_position == self.current_location_id:
+                            self._points -= self._items[i].target_points
+                        return True
+        return False
+
+    def drop(self, desired_item: str) -> bool:
+        """
+        Drop the item the player wants to.
+        If the desired item is in the player's inventory, mutate self._current_items by popping the item,
+            and return True to represent a successful interaction.
+        If the desired item is NOT in the player's inventory, self._current_items remains unmutated,
+            and return False to represent an unsuccessful interaciton
+
+        Update points correspondingly
+        """
+        if desired_item == '':
+            return False
+        else:
+            if desired_item in self._current_items:
+                for i in range(len(self._items)):
+                    if self._items[i].name == desired_item:
+                        # update the availability of the item
+                        self._items[i].available = True
+                        # check if the player has dropped the item at the target location
+                        if self.current_location_id == self._items[i]:
+                            # if so, reward the player with the corresponding amount of points
+                            self._points += self._items[i].target_points
+
+                        self._current_items.remove(self._items[i])
+                        return True
+            return False
+
+    # drop method, update points
+
 
 if __name__ == "__main__":
     # When you are ready to check your work with python_ta, uncomment the following lines.
@@ -146,7 +203,7 @@ if __name__ == "__main__":
     # })
 
     game_log = EventList()  # This is REQUIRED as one of the baseline requirements
-    game = AdventureGame('game_data.json', 1)  # load data, setting initial location ID to 1
+    game = AdventureGame('game_data.json', 2)  # load data, setting initial location ID to 1
     menu = ["look", "inventory", "score", "log", "quit"]  # Regular menu options available at each location
     choice = None
 
