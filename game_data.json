@@ -6,11 +6,129 @@
       "brief_description": "You are on the first floor of the Bahen Center. There are elevators to the West, and an exit from the building to St. George street to the East. You see something shiny on the ground -- looks like a toonie?",
       "long_description": "You are on the first floor of the Bahen Center. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying at the table near the doors. You better not disturb them. One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. There are elevators to the West, and an exit from the building to St. George street to the East.",
       "available_commands": {
-        "go south": 4,
-        "go east": 2
+        "exit building": 6
       },
       "items": ["toonie"]
-    }
+    },
+    {
+      "id": 0,
+      "name": "Robarts Library 1st floor",
+      "breef_description": "You are on the first floor of Robarts Library.",
+      "long_description": "",
+      "avaliable_commands": {
+        "exit building": 7
+
+      }
+    },
+    {
+      "id": 2,
+      "name": "dorm",
+      "brief_description": "You are in your dorm, waking up in panic.",
+      "long_description": "exit dorm to go to the second floor",
+      "available_commands": {
+        "exit dorm": 3
+      }
+    },
+    {
+      "id": 3,
+      "name": "2nd floor aisle",
+      "brief_description": "",
+      "long_description": "go west is taking the elevator, enter dorm is techniqually going east",
+      "available_commands": {
+        "go west": 4,
+        "enter dorm": 2
+      }
+    },
+    {
+      "id": 4,
+      "name": "Morison Hall entrance",
+      "brief_description": "",
+      "long_description": "exit building to st. george street middle, go east is taking the elevator back up",
+      "available_commands": {
+        "exit building": 5,
+        "go east": 3
+      }
+    },
+    {
+      "id": 5,
+      "name": "St. George Street Middle",
+      "brief_description": "",
+      "long_description": "",
+      "available_commands": {
+        "go south": 6,
+        "go north": 7
+      }
+    },
+    {
+      "id": 6,
+      "name": "St. George Street South",
+      "brief_description": "",
+      "long_description": "",
+      "available_commands": {
+        "go North": 5,
+        "enter Bahen Centre": 1,
+        "enter Myhal Centre": 8
+      }
+      },
+    {
+      "id": 7,
+      "name": "St. George Street North",
+      "brief_description": "",
+      "long_description": "",
+      "available_commands": {
+        "enter Robarts Library": 0,
+        "go south": 5
+      }
+    },
+    {
+      "id": 8,
+      "name": "Myhal Centre",
+      "brief_description": "",
+      "long_description": "",
+      "available_commands": {
+        "exit": 6
+      }
+    },
+    {
+      "id": 9,
+      "name": "Bahen Centre 2nd floor",
+      "brief_description": "",
+      "long_description": "",
+      "available_commands": {
+        "go east": 1,
+        "go west": 11,
+        "go south": 12,
+      }
+    },
+    {
+      "id": 10,
+      "name": "St. George Street Middle South",
+      "brief_description": "",
+      "long_description": "",
+      "available_commands": {
+        "go east": 8,
+        "go west": 1,
+      }
+    },
+    {
+      "id": 11,
+      "name": "Bahen Centre 2nd floor Room 2210",
+      "brief_description": "",
+      "long_description": "",
+      "available_commands": {
+        "go east": 9,
+      }
+    },
+    {
+      "id": 12,
+      "name": "Bahen Centre 2nd floor Room 2220",
+      "brief_description": "",
+      "long_description": "",
+      "available_commands": {
+        "go north": 9,
+      }
+    },
+
   ],
   "items": [
     {
@@ -20,5 +138,6 @@
       "target_position": 4,
       "target_points": 5
     }
+
   ]
 }
