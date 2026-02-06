@@ -13,9 +13,9 @@
     {
       "id": 0,
       "name": "Robarts Library 1st floor",
-      "breef_description": "You are on the first floor of Robarts Library.",
+      "brief_description": "You are on the first floor of Robarts Library.",
       "long_description": "",
-      "avaliable_commands": {
+      "available_commands": {
         "exit building": 7
 
       }
@@ -33,7 +33,7 @@
       "id": 3,
       "name": "2nd floor aisle",
       "brief_description": "",
-      "long_description": "go west is taking the elevator, enter dorm is techniqually going east",
+      "long_description": "go west is taking the elevator, enter dorm is technically going east",
       "available_commands": {
         "go west": 4,
         "enter dorm": 2
@@ -97,7 +97,7 @@
       "available_commands": {
         "go east": 1,
         "go west": 11,
-        "go south": 12,
+        "go south": 12
       }
     },
     {
@@ -107,7 +107,7 @@
       "long_description": "",
       "available_commands": {
         "go east": 8,
-        "go west": 1,
+        "go west": 1
       }
     },
     {
@@ -116,7 +116,7 @@
       "brief_description": "",
       "long_description": "",
       "available_commands": {
-        "go east": 9,
+        "go east": 9
       }
     },
     {
@@ -125,9 +125,9 @@
       "brief_description": "",
       "long_description": "",
       "available_commands": {
-        "go north": 9,
+        "go north": 9
       }
-    },
+    }
 
   ],
   "items": [

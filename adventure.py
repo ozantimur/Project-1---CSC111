@@ -49,6 +49,8 @@ class AdventureGame:
     _items: list[Item]
     current_location_id: int  # Suggested attribute, can be removed
     ongoing: bool  # Suggested attribute, can be removed
+    _current_items: list[Item]
+    _visited_locations = list[Location]
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
         """
@@ -73,6 +75,7 @@ class AdventureGame:
         # Suggested attributes (you can remove and track these differently if you wish to do so):
         self.current_location_id = initial_location_id  # game begins at this location
         self.ongoing = True  # whether the game is ongoing
+        self._current_items = []
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item]]:
@@ -116,6 +119,21 @@ class AdventureGame:
         else:
             return self._locations[self.current_location_id]
 
+    def inventory(self) -> list[Item]:
+        """This method returns the current inventory of the player while the game is played.
+        """
+
+        return self._current_items
+
+    def move(self, desired_command : str) -> bool:
+        """This method moves the player to the new location based on the command
+        """
+        current_location = self._locations[self.current_location_id]
+        if desired_command in current_location.available_commands:
+            self.current_location_id = current_location.available_commands[desired_command]
+            return True
+        else:
+            return False
 
 if __name__ == "__main__":
     # When you are ready to check your work with python_ta, uncomment the following lines.
