@@ -83,6 +83,7 @@ class AdventureGame:
         with open(filename, 'r') as f:
             data = json.load(f)  # This loads all the data from the JSON file
 
+        # this is a dictionary
         locations = {}
         for loc_data in data['locations']:  # Go through each element associated with the 'locations' key in the file
             location_obj = Location(loc_data['id'], loc_data['brief_description'], loc_data['long_description'],
@@ -90,8 +91,16 @@ class AdventureGame:
             locations[loc_data['id']] = location_obj
 
         items = []
-        # TODO: Add Item objects to the items list; your code should be structured similarly to the loop above
+
         # YOUR CODE BELOW
+
+        with open(filename, 'r') as f:
+            data = json.load(f)  # This loads all the data from the JSON file
+
+        for item_data in data["items"]:
+            item_obj = Item(item_data['name'], item_data['start_position'], item_data['target_position'],
+                            item_data['target_points'])
+            items.append(item_obj)
 
         return locations, items
 
@@ -102,6 +111,10 @@ class AdventureGame:
 
         # TODO: Complete this method as specified
         # YOUR CODE BELOW
+        if loc_id is not None:
+            return self._locations[loc_id]
+        else:
+            return self._locations[self.current_location_id]
 
 
 if __name__ == "__main__":
