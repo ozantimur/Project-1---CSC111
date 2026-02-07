@@ -69,6 +69,7 @@ class Item:
     start_position: int
     target_position: int
     target_points: int
+    available: bool
 
 
 # Note: Other entities you may want to add, depending on your game plan:
