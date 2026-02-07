@@ -51,7 +51,7 @@ class AdventureGame:
     ongoing: bool  # Suggested attribute, can be removed
     _current_items: list[Item]
     _visited_locations = list[Location]
-    _points: float  # the points the player has
+    _points: int  # the points the player has
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
         """
@@ -76,6 +76,8 @@ class AdventureGame:
         # Suggested attributes (you can remove and track these differently if you wish to do so):
         self.current_location_id = initial_location_id  # game begins at this location
         self.ongoing = True  # whether the game is ongoing
+
+        self._points = 0
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item]]:
@@ -168,7 +170,7 @@ class AdventureGame:
         If the desired item is in the player's inventory, mutate self._current_items by popping the item,
             and return True to represent a successful interaction.
         If the desired item is NOT in the player's inventory, self._current_items remains unmutated,
-            and return False to represent an unsuccessful interaction
+            and return False to represent an unsuccessful interaciton
 
         Update points correspondingly
         """
@@ -190,15 +192,15 @@ class AdventureGame:
             return False
 
     def score(self) -> float:
-        """Returns the player's score
+        """Return the player's score so far
         """
         return self._points
 
-    #def quit
-
     def look(self) -> str:
+        """
+        Return the full description of the current location
+        """
         return self._locations[self.current_location_id].long_description
-
     # drop method, update points
 
 
@@ -224,13 +226,16 @@ if __name__ == "__main__":
 
         location = game.get_location()
 
-        # TODO: Add new Event to game log to represent current game location
-        #  Note that the <choice> variable should be the command which led to this event
-        # YOUR CODE HERE
+        game_log.add_event(Event(location.id_num, location.long_description))
 
         # TODO: Depending on whether or not it's been visited before,
         #  print either full description (first time visit) or brief description (every subsequent visit) of location
         # YOUR CODE HERE
+        if location.visited:
+            print(location.long_description)
+        else:
+            print(location.brief_description)
+            location.visted = True
 
         # Display possible actions at this location
         print("What to do? Choose from: look, inventory, score, log, quit")
@@ -251,7 +256,14 @@ if __name__ == "__main__":
             # TODO: Handle each menu command as appropriate
             if choice == "log":
                 game_log.display_events()
-            # ENTER YOUR CODE BELOW to handle other menu commands (remember to use helper functions as appropriate)
+            elif choice == "score":
+                print(game.score())
+            elif choice == "look":
+                print(game.look())
+            elif choice == "inventory":
+                print(game.inventory())
+            elif choice == "quit":
+                game.ongoing = False
 
         else:
             # Handle non-menu actions
