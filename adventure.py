@@ -51,7 +51,7 @@ class AdventureGame:
     ongoing: bool  # Suggested attribute, can be removed
     _current_items: list[Item]
     _visited_locations = list[Location]
-    _points: int  # the points the player has
+    _points: float  # the points the player has
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
         """
@@ -168,7 +168,7 @@ class AdventureGame:
         If the desired item is in the player's inventory, mutate self._current_items by popping the item,
             and return True to represent a successful interaction.
         If the desired item is NOT in the player's inventory, self._current_items remains unmutated,
-            and return False to represent an unsuccessful interaciton
+            and return False to represent an unsuccessful interaction
 
         Update points correspondingly
         """
@@ -188,6 +188,16 @@ class AdventureGame:
                         self._current_items.remove(self._items[i])
                         return True
             return False
+
+    def score(self) -> float:
+        """Returns the player's score
+        """
+        return self._points
+
+    #def quit
+
+    def look(self) -> str:
+        return self._locations[self.current_location_id].long_description
 
     # drop method, update points
 
