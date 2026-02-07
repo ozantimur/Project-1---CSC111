@@ -228,14 +228,12 @@ if __name__ == "__main__":
 
         game_log.add_event(Event(location.id_num, location.long_description))
 
-        # TODO: Depending on whether or not it's been visited before,
-        #  print either full description (first time visit) or brief description (every subsequent visit) of location
         # YOUR CODE HERE
         if location.visited:
             print(location.long_description)
         else:
             print(location.brief_description)
-            location.visted = True
+            location.visited = True
 
         # Display possible actions at this location
         print("What to do? Choose from: look, inventory, score, log, quit")
@@ -253,7 +251,6 @@ if __name__ == "__main__":
         print("You decided to:", choice)
 
         if choice in menu:
-            # TODO: Handle each menu command as appropriate
             if choice == "log":
                 game_log.display_events()
             elif choice == "score":
@@ -271,4 +268,9 @@ if __name__ == "__main__":
             game.current_location_id = result
 
             # TODO: Add in code to deal with actions which do not change the location (e.g. taking or using an item)
+            if choice.startswith("go") or choice == "exit" or choice.startswith("enter"):
+                successful = game.move(choice)
+                # if not successful:
+                #     print("That was an invalid option; try again.")
+
             # TODO: Add in code to deal with special locations (e.g. puzzles) as needed for your game
