@@ -78,7 +78,7 @@ class Item:
 # etc.
 
 class NPC:
-    """An item in our text adventure game world.
+    """A NPC in our text adventure game world.
 
         Instance Attributes:
             - # TODO Describe each instance attribute here
