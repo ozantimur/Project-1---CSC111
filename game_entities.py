@@ -37,13 +37,14 @@ class Location:
     #
     # The only thing you must NOT change is the name of this class: Location.
     # All locations in your game MUST be represented as an instance of this class.
-
+    name: str
     id_num: int
     brief_description: str
     long_description: str
     available_commands: dict[str, int]
     items: list[str]
-    visited: bool = False
+    visited: bool
+    availability: bool
 
 
 @dataclass
@@ -86,9 +87,12 @@ class NPC:
         Representation Invariants:
             - # TODO Describe any necessary representation invariants
         """
+
     name: str
     conversations: list[str]
     location: int
+
+    # TODO: Implement this class
 
 
 if __name__ == "__main__":
