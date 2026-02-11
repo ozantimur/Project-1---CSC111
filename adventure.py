@@ -76,7 +76,6 @@ class AdventureGame:
         # Suggested attributes (you can remove and track these differently if you wish to do so):
         self.current_location_id = initial_location_id  # game begins at this location
         self.ongoing = True  # whether the game is ongoing
-
         self._points = 0
 
     @staticmethod
@@ -91,8 +90,10 @@ class AdventureGame:
         # this is a dictionary
         locations = {}
         for loc_data in data['locations']:  # Go through each element associated with the 'locations' key in the file
-            location_obj = Location(loc_data['id'], loc_data['brief_description'], loc_data['long_description'],
-                                    loc_data['available_commands'], loc_data['items'])
+            location_obj = Location(loc_data['name'], loc_data['id'], loc_data['brief_description'],
+                                    loc_data['long_description'],
+                                    loc_data['available_commands'], loc_data['items'],
+                                    loc_data['availability'] == "True")
             locations[loc_data['id']] = location_obj
 
         items = []
@@ -125,18 +126,52 @@ class AdventureGame:
         """
         return self._current_items
 
-    def move(self, desired_command: str) -> bool:
+    def move(self, desired_command: str) -> None:
         """Move the player to the new location based on the command
         Return True if the destination is valid, otherwise False
         """
         current_location = self._locations[self.current_location_id]
         if desired_command in current_location.available_commands:
-            self.current_location_id = current_location.available_commands[desired_command]
-            return True
+            # current_location.availability marks whether the player needs an item to enter the location
+            if current_location.availability:
+                self.current_location_id = current_location.available_commands[desired_command]
+                return
+            else:
+                # Note that id 2 is the id for the dorm room
+                if current_location.available_commands[desired_command] == 2:
+                    self._unlock()
+                else:
+                    self._swipe(self._locations[current_location.available_commands[desired_command]])
+        return
+
+    def _unlock(self) -> None:
+        """
+        Handle the unlocking process
+        """
+        # Check if the player has a key or not
+        key = None
+        for item in self._current_items:
+            if item.name.endswith('key'):
+                key = item
+        if key:
+            print(f"You have unlocked the door using your {key.name}. ", sep="", end="")
         else:
-            return False
+            print("Oh no! You have forgot to take your room key! Head down to front desk to ask for a temporary key. ")
+
+    def _swipe(self, destination: Location) -> None:
+        """
+        Handle the process of scanning t-card
+        """
+        # Checks whether the player has the t-card on themselves
+        if any([item.name == 't-card' for item in self._current_items]):
+            print(f"You have swiped your t-card to enter {destination.name}. ", sep="", end="")
+            return
+        else:
+            print(f"{destination.name} requires you to swipe your t-card to enter. However, you do not have it on you.")
+            return
 
     def pick_up(self, desired_item: str) -> bool:
+
         """
         Pick up the item the player wants.
         If the desired item is within the player's current location, mutate self._current_items by appending the item,
@@ -269,6 +304,12 @@ if __name__ == "__main__":
 
             # TODO: Add in code to deal with actions which do not change the location (e.g. taking or using an item)
             if choice.startswith("go") or choice == "exit" or choice.startswith("enter"):
-                successful = game.move(choice)
+                game.move(choice)
+            """
+            # TODO: Make sure to include the case to subtract points for some NPC interactions. It has to be done here,
+            by constructing the NPC method such that it returns a value of how much points the player gets 
+            Positive for earning points, negative for losing points. 
+            """
 
             # TODO: Add in code to deal with special locations (e.g. puzzles) as needed for your game
+
