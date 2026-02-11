@@ -77,6 +77,20 @@ class Item:
 # - Player class
 # etc.
 
+class NPC:
+    """An item in our text adventure game world.
+
+        Instance Attributes:
+            - # TODO Describe each instance attribute here
+
+        Representation Invariants:
+            - # TODO Describe any necessary representation invariants
+        """
+    name: str
+    conversations: list[str]
+    location: int
+
+
 if __name__ == "__main__":
     pass
     # When you are ready to check your work with python_ta, uncomment the following lines.
