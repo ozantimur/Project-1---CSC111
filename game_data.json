@@ -6,34 +6,38 @@
       "brief_description": "You are on the first floor of the Bahen Center. There are elevators to the West, and an exit from the building to St. George street to the East. You see something shiny on the ground -- looks like a toonie?",
       "long_description": "You are on the first floor of the Bahen Center. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying at the table near the doors. You better not disturb them. One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. There are elevators to the West, and an exit from the building to St. George street to the East.",
       "available_commands": {
-        "exit building": 6
+        "exit": 6
       },
+      "availability": "True",
       "items": ["toonie"]
     },
     {
       "id": 0,
-      "name": "Robarts Library 1st floor",
+      "name": "Robarts Library 1st Floor",
       "brief_description": "You are on the first floor of Robarts Library.",
       "long_description": "",
+      "availability": "False",
       "available_commands": {
-        "exit building": 7
+        "exit": 7
 
       }
     },
     {
       "id": 2,
-      "name": "dorm",
+      "name": "Dorm",
       "brief_description": "You are in your dorm, waking up in panic.",
       "long_description": "exit dorm to go to the second floor",
+      "availability": "True",
       "available_commands": {
-        "exit dorm": 3
+        "exit": 3
       }
     },
     {
       "id": 3,
-      "name": "2nd floor aisle",
+      "name": "2nd Floor Aisle",
       "brief_description": "",
       "long_description": "go west is taking the elevator, enter dorm is technically going east",
+      "availability": "True",
       "available_commands": {
         "go west": 4,
         "enter dorm": 2
@@ -41,11 +45,12 @@
     },
     {
       "id": 4,
-      "name": "Morison Hall entrance",
+      "name": "Morison Hall Entrance",
       "brief_description": "",
       "long_description": "exit building to st. george street middle, go east is taking the elevator back up",
+      "availability": "True",
       "available_commands": {
-        "exit building": 5,
+        "exit": 5,
         "go east": 3
       }
     },
@@ -54,6 +59,7 @@
       "name": "St. George Street Middle",
       "brief_description": "",
       "long_description": "",
+      "availability": "True",
       "available_commands": {
         "go south": 6,
         "go north": 7
@@ -64,19 +70,21 @@
       "name": "St. George Street South",
       "brief_description": "",
       "long_description": "",
+      "availability": "True",
       "available_commands": {
-        "go North": 5,
-        "enter Bahen Centre": 1,
-        "enter Myhal Centre": 8
+        "go north": 5,
+        "enter bahen centre": 1,
+        "enter myhal centre": 8
       }
       },
     {
       "id": 7,
       "name": "St. George Street North",
+      "availability": "True",
       "brief_description": "",
       "long_description": "",
       "available_commands": {
-        "enter Robarts Library": 0,
+        "enter robarts library": 0,
         "go south": 5
       }
     },
@@ -85,15 +93,17 @@
       "name": "Myhal Centre",
       "brief_description": "",
       "long_description": "",
+      "availability": "True",
       "available_commands": {
         "exit": 6
       }
     },
     {
       "id": 9,
-      "name": "Bahen Centre 2nd floor",
+      "name": "Bahen Centre 2nd Floor",
       "brief_description": "",
       "long_description": "",
+      "availability": "True",
       "available_commands": {
         "go east": 1,
         "go west": 11,
@@ -105,6 +115,7 @@
       "name": "St. George Street Middle South",
       "brief_description": "",
       "long_description": "",
+      "availability": "True",
       "available_commands": {
         "go east": 8,
         "go west": 1
@@ -112,18 +123,20 @@
     },
     {
       "id": 11,
-      "name": "Bahen Centre 2nd floor Room 2210",
+      "name": "Bahen Centre 2nd Floor Room 2210",
       "brief_description": "",
       "long_description": "",
+      "availability": "False",
       "available_commands": {
         "go east": 9
       }
     },
     {
       "id": 12,
-      "name": "Bahen Centre 2nd floor Room 2220",
+      "name": "Bahen Centre 2nd Floor Room 2220",
       "brief_description": "",
       "long_description": "",
+      "availability": "False",
       "available_commands": {
         "go north": 9
       }
@@ -146,7 +159,7 @@
     "target_points": 15
   },
   {
-    "name": "lucky U of T mug",
+    "name": "lucky u of t mug",
     "description": "Your beloved University of Toronto mug. It’s chipped, sentimental, and absolutely irreplaceable.",
     "start_position": 3,
     "target_position": 6,
@@ -160,12 +173,11 @@
     "target_points": 0
   },
   {
-    "name": "T-card",
-    "description": "Student card, it helps you access rooms in Bahen",
+    "name": "t-card",
+    "description": "Student card, it helps you access rooms in Bahen and Robarts",
     "start_position": 7,
     "target_position": 1,
     "target_points": 5
   }
-
   ]
 }
