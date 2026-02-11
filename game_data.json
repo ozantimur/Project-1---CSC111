@@ -151,6 +151,20 @@
     "start_position": 3,
     "target_position": 6,
     "target_points": 10
+  },
+  {
+    "name": "dorm key",
+    "description": "Your dorm's key",
+    "start_position": 2,
+    "target_position": 2,
+    "target_points": 0
+  },
+  {
+    "name": "T-card",
+    "description": "Student card, it helps you access rooms in Bahen",
+    "start_position": 7,
+    "target_position": 1,
+    "target_points": 5
   }
 
   ]

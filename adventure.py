@@ -270,7 +270,5 @@ if __name__ == "__main__":
             # TODO: Add in code to deal with actions which do not change the location (e.g. taking or using an item)
             if choice.startswith("go") or choice == "exit" or choice.startswith("enter"):
                 successful = game.move(choice)
-                # if not successful:
-                #     print("That was an invalid option; try again.")
 
             # TODO: Add in code to deal with special locations (e.g. puzzles) as needed for your game
