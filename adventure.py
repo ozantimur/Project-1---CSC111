@@ -35,10 +35,20 @@ class AdventureGame:
     """A text adventure game class storing all location, item and map data.
 
     Instance Attributes:
-        - # TODO add descriptions of public instance attributes as needed
+        - current_location_id: The id of the player's current Location.
+        - ongoing: Whether or not the game is currently active.
+        - _locations: A mapping from location id numbers to Location objects.
+        - _items: A list of all item objects in the game.
+        - _npcs: A list of all NPC objects in the game.
+        - _current_items: A list of items currently in the player's inventory.
+        - _visited_locations: A list of locations the player has visited.
+        - _points: The player's current point score.
+        - _remaining_moves: The number of moves the player has remaining.
 
     Representation Invariants:
-        - # TODO add any appropriate representation invariants as needed
+        - current_location_id in _locations
+        - all(item in _items for item in _current_items)
+        - _remaining_moves >= 0
     """
 
     # Private Instance Attributes (do NOT remove these two attributes):
