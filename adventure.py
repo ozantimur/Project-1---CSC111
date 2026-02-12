@@ -19,6 +19,7 @@ This file is Copyright (c) 2026 CSC111 Teaching Team
 """
 from __future__ import annotations
 import json
+from os import remove
 from typing import Optional
 
 from game_entities import Location, Item, NPC
@@ -53,6 +54,7 @@ class AdventureGame:
     _current_items: list[Item]
     _visited_locations = list[Location]
     _points: int  # the points the player has
+    _remaining_moves: int
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
         """
@@ -78,6 +80,7 @@ class AdventureGame:
         self.current_location_id = initial_location_id  # game begins at this location
         self.ongoing = True  # whether the game is ongoing
         self._points = 0
+        self._remaining_moves = 100
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item], list[NPC]]:
@@ -290,6 +293,7 @@ if __name__ == "__main__":
         if choice in menu:
             if choice == "log":
                 game_log.display_events()
+                
             elif choice == "score":
                 print(game.score())
             elif choice == "look":
@@ -303,6 +307,7 @@ if __name__ == "__main__":
             # Handle non-menu actions
             result = location.available_commands[choice]
             game.current_location_id = result
+            game._remaining_moves -= 1
 
             # TODO: Add in code to deal with actions which do not change the location (e.g. taking or using an item)
             if choice.startswith("go") or choice == "exit" or choice.startswith("enter"):
@@ -314,3 +319,6 @@ if __name__ == "__main__":
             """
             # TODO: Add in code to deal with special locations (e.g. puzzles) as needed for your game
 
+        if game._remaining_moves <= 0:
+            print("Out of moves!") #The player run out of moves so the game ends automatically
+            game.ongoing = False
