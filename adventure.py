@@ -21,7 +21,7 @@ from __future__ import annotations
 import json
 from typing import Optional
 
-from game_entities import Location, Item
+from game_entities import Location, Item, NPC
 from event_logger import Event, EventList
 
 
@@ -47,6 +47,7 @@ class AdventureGame:
 
     _locations: dict[int, Location]
     _items: list[Item]
+    _npcs: list[NPC]
     current_location_id: int  # Suggested attribute, can be removed
     ongoing: bool  # Suggested attribute, can be removed
     _current_items: list[Item]
@@ -79,7 +80,7 @@ class AdventureGame:
         self._points = 0
 
     @staticmethod
-    def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item]]:
+    def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item], list[NPC]]:
         """Load locations and items from a JSON file with the given filename and
         return a tuple consisting of (1) a dictionary of locations mapping each game location's ID to a Location object,
         and (2) a list of all Item objects."""
@@ -89,6 +90,9 @@ class AdventureGame:
 
         # this is a dictionary
         locations = {}
+        items = []
+        npcs = []
+
         for loc_data in data['locations']:  # Go through each element associated with the 'locations' key in the file
             location_obj = Location(loc_data['name'], loc_data['id'], loc_data['brief_description'],
                                     loc_data['long_description'],
@@ -96,19 +100,17 @@ class AdventureGame:
                                     loc_data['availability'] == "True")
             locations[loc_data['id']] = location_obj
 
-        items = []
-
-        # YOUR CODE BELOW
-
-        with open(filename, 'r') as f:
-            data = json.load(f)  # This loads all the data from the JSON file
-
         for item_data in data["items"]:
             item_obj = Item(item_data['name'], item_data['start_position'], item_data['target_position'],
                             item_data['target_points'], True)
             items.append(item_obj)
 
-        return locations, items
+        for npc_data in data["npcs"]:
+            npc_obj = NPC(npc_data['name'], npc_data['conversations'], npc_data['location'],
+                            npc_data['plus_points'], npc_data['minus_points'])
+            npcs.append(npc_obj)
+
+        return locations, items, npcs
 
     def get_location(self, loc_id: Optional[int] = None) -> Location:
         """Return Location object associated with the provided location ID.
@@ -310,6 +312,5 @@ if __name__ == "__main__":
             by constructing the NPC method such that it returns a value of how much points the player gets 
             Positive for earning points, negative for losing points. 
             """
-
             # TODO: Add in code to deal with special locations (e.g. puzzles) as needed for your game
 

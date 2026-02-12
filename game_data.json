@@ -170,23 +170,31 @@
   "npcs": [
   {
     "name": "Boris Khesin",
-    "conversations": "",
-    "location": "10"
+    "conversations": [""],
+    "location": 10,
+    "plus_points": 5,
+    "minus_points": -5
   },
   {
     "name": "Paul He",
-    "conversations": "",
-    "location": "9"
+    "conversations": [""],
+    "location": 9,
+    "plus_points": 5,
+    "minus_points": -5
   },
   {
     "name": "Arnab Kumar",
-    "conversations": "",
-    "location": "7"
+    "conversations": [""],
+    "location": 7,
+    "plus_points": 5,
+    "minus_points": 0
   },
   {
     "name": "Front desk staff",
-    "conversations": "",
-    "location": "4"
+    "conversations": [""],
+    "location": 4,
+    "plus_points": 5,
+    "minus_points": -5
   }
   ]
 }

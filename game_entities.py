@@ -91,8 +91,23 @@ class NPC:
     name: str
     conversations: list[str]
     location: int
+    plus_points: float
+    minus_points: float
 
-    # TODO: Implement this class
+    def __init__(
+        self,
+        name: str,
+        conversations: list[str],
+        location: int,
+        plus_points: float,
+        minus_points: float
+    ) -> None:
+        """Initialize a new NPC."""
+        self.name = name
+        self.conversations = conversations
+        self.location = location
+        self.plus_points = plus_points
+        self.minus_points = minus_points
 
 
 if __name__ == "__main__":
