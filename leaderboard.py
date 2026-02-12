@@ -2,12 +2,18 @@ import json
 
 class Leaderboard:
     """
+    A leaderboard that keeps the top 5 player scores and saves them in a JSON file.
 
     Instance Attributes:
         - filename: the JSON file storing the leaderboard
-        - entries: list of [username, score] pairs sorted in descending score order
+        - leaderboard: list of [username, score] pairs sorted in descending score order
 
-
+    Representation Invariants:
+        - len(self.leaderboard) <= 5
+        - all(len(entry) == 2 for entry in self.leaderboard)
+        - all(isinstance(entry[0], str) for entry in self.leaderboard)
+        - all(isinstance(entry[1], float)) for entry in self.leaderboard)
+        - self.leaderboard is sorted in descending order by score
     """
     filename: str
     leaderboard: list[list]

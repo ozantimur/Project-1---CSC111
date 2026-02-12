@@ -337,7 +337,7 @@ if __name__ == "__main__":
             game.ongoing = False
 
     username = input("Enter your username for the leaderboard: ").strip()
-    final_score = int(game.score())
+    final_score = float(game.score())
     leaderboard = Leaderboard()
     leaderboard.update(username, final_score)
     leaderboard.save()
