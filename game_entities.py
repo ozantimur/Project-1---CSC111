@@ -26,7 +26,14 @@ class Location:
     """A location in our text adventure game world.
 
     Instance Attributes:
-        - # TODO Describe each instance attribute here
+        - name: The name of this location.
+        - id_num: A unique integer identifier value for this location.
+        - brief_description: A brief description shown when the player revisits the location.
+        - long_description: A detailed and description shown the first time the player enters the location.
+        - available_commands: A dictionary that maps command strings to the id_num of the destination location.
+        - items: A list of item names present at this location.
+        - visited: Whether or not the player has visited this location before.
+        - availability: Whether this location is currently accessible to the player.
 
     Representation Invariants:
         - # TODO Describe any necessary representation invariants
@@ -52,7 +59,7 @@ class Item:
     """An item in our text adventure game world.
 
     Instance Attributes:
-        - # TODO Describe each instance attribute here
+        - 
 
     Representation Invariants:
         - # TODO Describe any necessary representation invariants
