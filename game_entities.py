@@ -36,7 +36,13 @@ class Location:
         - availability: Whether this location is currently accessible to the player.
 
     Representation Invariants:
-        - # TODO Describe any necessary representation invariants
+        - name != ""
+        - id_num >= 0
+        - brief_description != ""
+        - long_description != ""
+        - all(com != "" for com in available_commands)
+        - all(isinstance(dest, int) and dest >= 0 for dest in available_commands.values())
+        - all(isinstance(item, str) and item != "" for item in items)
     """
 
     # This is just a suggested starter class for Location.
