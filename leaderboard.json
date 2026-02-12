@@ -1,0 +1,9 @@
+{
+  "leaderboard": [
+    { "username": "player1", "score": 120 },
+    { "username": "player2", "score": 100 },
+    { "username": "player3", "score": 80 },
+    { "username": "player4", "score": 60 },
+    { "username": "player5", "score": 40 }
+  ]
+}
