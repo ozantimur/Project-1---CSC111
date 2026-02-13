@@ -37,8 +37,6 @@ class AdventureGame:
     Instance Attributes:
         - current_location_id: The id of the player's current Location.
         - npcs: A list of all NPC objects in the game.
-        - _current_items: A list of items currently in the player's inventory.
-        - _visited_locations: A list of locations the player has visited.
         - _points: The player's current point score.
         - _remaining_moves: The number of moves the player has remaining.
 
@@ -86,7 +84,12 @@ class AdventureGame:
 
         self.ongoing = True  # whether the game is ongoing
         self.auto_print = False
-        self.player = Player([], [], 0.0, 50, False, 3.0, 2)
+        init_points = 0.0
+        starting_num_moves = 50
+        min_points_to_win = 3.0
+        dorm_loc_id = 2
+        won = False
+        self.player = Player([], [], init_points, starting_num_moves, won, min_points_to_win, dorm_loc_id)
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item], list[NPC]]:
@@ -165,8 +168,7 @@ class AdventureGame:
                 self.current_location_id = current_location.available_commands[desired_command]
                 return
             else:
-                # Note that id 2 is the id for the dorm room
-                if current_location.available_commands[desired_command] == 2:
+                if current_location.available_commands[desired_command] == self.player.get_dorm_location_id():
                     self._unlock(desired_command)
                 else:
                     self._swipe(self._locations[current_location.available_commands[desired_command]])
@@ -283,12 +285,12 @@ class AdventureGame:
         has_enough_points = self.player.get_points() > self.player.get_min_points_to_win()
         return in_dorm and dropped_all_key_items, has_enough_points
 
-    def check_key_items(self):
+    def check_key_items(self) -> bool:
         """
         Return True iff the player has all the three key items dropped at the dorm
         """
         for any_item in self._items:
-            if any_item.name == "lucky uoft mug" or any_item.name == "laptop charger" or any_item.name == "usb drive":
+            if any_item.name in {"lucky uoft mug", "laptop charger", "usb drive"}:
                 if any_item.start_position != self.player.get_dorm_location_id():
                     return False
         return True
@@ -298,12 +300,12 @@ if __name__ == "__main__":
     # When you are ready to check your work with python_ta, uncomment the following lines.
     # (Delete the "#" and space before each line.)
     # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
-    # import python_ta
-    #
-    # python_ta.check_all(config={
-    #     'max-line-length': 120,
-    #     'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
-    # })
+    import python_ta
+
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
+    })
 
     game_log = EventList()  # This is REQUIRED as one of the baseline requirements
     game = AdventureGame('game_data.json', 2)  # load data, setting initial location ID to 1
@@ -344,13 +346,14 @@ if __name__ == "__main__":
 
         # Validate choice
         choice = input("\nEnter action: ").lower().strip()
+        clean_input_cutoff = 5
         while (choice not in location.available_commands and choice not in menu
                and not choice.startswith("pick up") and not choice.startswith("drop")):
             if choice.startswith("pick up") and len(location.items) == 0:
                 print("That was an invalid option; try again.")
                 choice = input("\nEnter action: ").lower().strip()
-            elif (len(choice) >= 5 and choice.startswith("drop") and
-                  not any(obj.name.endswith(choice[5::]) for obj in game.player.get_current_items())):
+            elif len(choice) >= clean_input_cutoff and choice.startswith("drop") and not any(
+                    obj.name.endswith(choice[clean_input_cutoff::]) for obj in game.player.get_current_items()):
                 print("That was an invalid option; try again.")
                 choice = input("\nEnter action: ").lower().strip()
             else:

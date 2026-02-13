@@ -13,3 +13,165 @@
     "conversations": [""],
     "location": 4
   }
+
+
+
+___
+
+
+  "npcs": [
+  {
+    "speech": {
+      "1": "Hey! I haven't seen you for a long while in my lecture! Did you skip all of my lectures?",
+      "2": "Is that so? Let's check how prepared you are for the upcoming term test...\nWhich statement is equivalent to \"Let a(n) denote the term of a sequence at n. Which statement below is NOT logically equivalent to 'Limit of a(n) as n->infinity = L'?"
+    },
+    "options":
+    {
+      "0": {
+        "0": "0. Oh no, time to run!",
+        "1": "1. Tell the truth -- You have skipped all of his lectures recently because of the CS assignment and life has just been too tough for you.",
+        "2": "2. Tell a lie -- Argue that you have just been sitting in the back of the lecture hall. ",
+        "3": "3. Tell a better lie -- Argue that you have skipped some, BUT most of the time you have showed up to lecture, but chose to sit at the back of the lecture hall. "
+      },
+      "1": {
+        "0": "0. Holy... how on earth am I suppose to know? Time to run...",
+        "1": "1. For all epsilon > 0, there exists n0 that belongs to the set of all natural numbers s.t. for all n that belongs to the set of all natural numbers, n >= n0 --> |L - a(n)| < epsilon.",
+        "2": "2. For all epsilon > 0, there exists n0 that belongs to the set of all natural numbers s.t. for all n that belongs to the set of all natural numbers, n > n0 --> |L - a(n)| < epsilon.",
+        "3": "3. For all epsilon > 0, there exists n0 that belongs to the set of all natural numebrs s.t. for all n that belongs to the set of all real numbers, n >= n0 --> |L - a(n)| < 1/epsilon.",
+        "4": "4. For all epsilon that belongs to the interval (0, 1), there exists n0 that belongs to the set of all natural numebrs s.t. for all n that belongs to the set of all natural numbers, n >= n0 -->  |L - a(n)| < epsilon."
+      }
+
+    },
+    "results": {
+      "0": {
+        "response": {
+          "0": "You ran away, knowing you are desperately out of time as the CS assignment is due. Boris was deeply disappointed of your behavior.",
+          "1": "You told the truth. Although some what disappointed of you, he appreciated you for telling the truth. ",
+          "2": "You told the lie, it really wasn't hard at all for Boris to see that. Not only he is disappointed of you skipping lectures, but also disappointed of you telling such a silly lie.",
+          "3": "You told a good lie, but not good enough to fully deceive Boris. He remains somewhat suspicious of your lie... "
+        },
+        "earned_score": {
+          "0": -10,
+          "1": 0,
+          "2": -10,
+          "3": 0
+        }
+      },
+      "1": {
+        "response": {
+          "0": "You ran away, in fear of the limit definition... Boris is very disappointed.",
+          "1": "This is the very definition of the statement! Boris has left, concerned of your performance in the upcoming term test.",
+          "2": "Although there is a slight difference, this is still the formal definition! Boris has left, concerned of your performance in the upcoming term test.",
+          "3": "Perfect! Although this is subtle, but n0 can only be in the set of natural numbers! Boris is very proud of you.",
+          "4": "Oof! This is still an equivalent statement! Note that all we want is the values of epsilon when it is close to 0! Boris is very suspicious of your attendance... "
+        },
+        "earned_score": {
+          "0": -10,
+          "1": -5,
+          "2": -3,
+          "3": 20,
+          "4": -1
+        }
+      }
+
+    },
+    "name": "Boris Khesin",
+    "location": 10
+  },
+    {
+    "speech": {
+      "1": "Paul: Hey! How is the CS project going?",
+      "2": "Anything else?"
+    },
+    "options":
+    {
+      "0": {
+        "0": "0. Oh no, time to run!",
+        "1": "1. Tell the truth -- Your CS assignment has not been handed in yet as you are in search of your lost items.",
+        "2": "2. Be humourous -- Your CS assignment has not been handed in yet as your dog ate your USB drive. "
+      },
+      "1": {
+        "0": "0. Say you are in a rush and leave. ",
+        "1": "Inquire about the whereabouts of your lost items."
+      }
+
+    },
+    "results": {
+      "0": {
+        "response": {
+          "0": "Knowing you are desperately out of time as the CS assignment is due, you said you are in a hurry and ended the conversation.",
+          "1": "You told the truth. Paul is not too suprised, and he wishes you good luck on finding the lost items. He appreciated you for telling the truth. ",
+          "2": "HAHAHA -- Paul found this funny."
+        },
+        "earned_score": {
+          "0": 0,
+          "1": 5,
+          "2": 10
+        }
+      },
+      "1": {
+        "response": {
+          "0": "Knowing you are desperately out of time as the CS assignment is due, you said you are in a hurry and ended the conversation.",
+          "1": "Oh... well. I remember I did see a laptop charger somewhere on this floor... "
+        },
+        "earned_score": {
+          "0": 0,
+          "1": 5
+        }
+      }
+
+    },
+
+    "name": "Paul He",
+    "location": 9
+
+
+
+
+
+________20841890421809481
+
+
+{
+      "speech": {
+        "1": "Paul: Hey! How is the CS project going?",
+        "2": "Anything else?"
+      },
+      "options": {
+        "0": {
+          "0": "0. Oh no, time to run!",
+          "1": "1. Tell the truth -- Your CS assignment has not been handed in yet as you are in search of your lost items.",
+          "2": "2. Be humourous -- Your CS assignment has not been handed in yet as your dog ate your USB drive. "
+        },
+        "1": {
+          "0": "0. Say you are in a rush and leave. ",
+          "1": "1. Inquire about the whereabouts of your lost items."
+        }
+      },
+      "results": {
+        "0": {
+          "response": {
+            "0": "Knowing you are desperately out of time as the CS assignment is due, you said you are in a hurry and ended the conversation.",
+            "1": "You told the truth. Paul is not too suprised, and he wishes you good luck on finding the lost items. He appreciated you for telling the truth. ",
+            "2": "HAHAHA -- Paul found this funny."
+          },
+          "earned_score": {
+            "0": 0,
+            "1": 5,
+            "2": 10
+          }
+        },
+        "1": {
+          "response": {
+            "0": "Knowing you are desperately out of time as the CS assignment is due, you said you are in a hurry and ended the conversation.",
+            "1": "Oh... well. I remember I did see a laptop charger somewhere on this floor... "
+          },
+          "earned_score": {
+            "0": 0,
+            "1": 5
+          }
+        }
+      },
+      "name": "Paul He",
+      "location": 9
+    }
