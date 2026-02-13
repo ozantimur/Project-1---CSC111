@@ -118,7 +118,7 @@ class AdventureGame:
             location_obj = Location(loc_data['name'], loc_data['id'], loc_data['brief_description'],
                                     loc_data['long_description'],
                                     loc_data['available_commands'], loc_data['items'],
-                                    False, loc_data['availability'] == "True")
+                                    False, (loc_data['availability'] == "True"))
             locations[loc_data['id']] = location_obj
 
         for item_data in data["items"]:
@@ -170,9 +170,11 @@ class AdventureGame:
         Return True if the destination is valid, otherwise False
         """
         current_location = self._locations[self.current_location_id]
+
         if desired_command in current_location.available_commands:
             # current_location.availability marks whether the player needs an item to enter the location
-            if current_location.availability:
+            desired_destination = self._locations[current_location.available_commands[desired_command]]
+            if desired_destination.availability:
                 self.current_location_id = current_location.available_commands[desired_command]
                 return
             else:
@@ -229,7 +231,6 @@ class AdventureGame:
                     if self._items[i].name == desired_item:
                         self._current_items.append(self._items[i])
                         self._items[i].available = False
-
                         # check if the player has picked up items that are already dropped at the target position,
                         # if so, then the appropriate points will be deducted as the player must have received the
                         # same amount of points by dropping the item at the target position
@@ -237,33 +238,6 @@ class AdventureGame:
                             self.points -= self._items[i].target_points
                         return True
         return False
-
-    def drop(self, desired_item: str) -> bool:
-        """
-        Drop the item the player wants to.
-        If the desired item is in the player's inventory, mutate self._current_items by popping the item,
-            and return True to represent a successful interaction.
-        If the desired item is NOT in the player's inventory, self._current_items remains unmutated,
-            and return False to represent an unsuccessful interaction
-
-        Update points correspondingly
-        """
-        if desired_item == '':
-            return False
-        else:
-            if desired_item in self._current_items:
-                for i in range(len(self._items)):
-                    if self._items[i].name == desired_item:
-                        # update the availability of the item
-                        self._items[i].available = True
-                        # check if the player has dropped the item at the target location
-                        if self.current_location_id == self._items[i]:
-                            # if so, reward the player with the corresponding amount of points
-                            self.points += self._items[i].target_points
-
-                        self._current_items.remove(self._items[i])
-                        return True
-            return False
 
     def score(self) -> float:
         """Return the player's score so far
@@ -298,7 +272,7 @@ if __name__ == "__main__":
     game = AdventureGame('game_data.json', 2)  # load data, setting initial location ID to 1
     menu = ["look", "inventory", "score", "log", "quit"]  # Regular menu options available at each location
     choice = None
-
+    print("You woke up in panic...")
     # Note: You may modify the code below as needed; the following starter code is just a suggestion
     while game.ongoing:
         # Note: If the loop body is getting too long, you should split the body up into helper functions
@@ -346,7 +320,6 @@ if __name__ == "__main__":
             elif choice == "quit":
                 game.ongoing = False
 
-
         else:
             # Handle non-menu actions
 
@@ -364,7 +337,6 @@ if __name__ == "__main__":
                             print("You have lost "+str(-1*earned_points)+" points through this interaction.")
                         else:
                             print("You have gained "+str(earned_points)+" points through this interaction.")
-
             else:
                 result = location.available_commands[choice]
                 game.current_location_id = result
