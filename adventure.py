@@ -22,7 +22,6 @@ import json
 from os import remove
 from typing import Optional
 
-from jedi.debug import speed
 
 from game_entities import Location, Item, NPC
 from event_logger import Event, EventList
@@ -42,10 +41,10 @@ class AdventureGame:
         - ongoing: Whether the game is currently active.
         - _locations: A mapping from location id numbers to Location objects.
         - _items: A list of all item objects in the game.
-        - npcs: A list of all NPC objects in the game.
+        - _npcs: A list of all NPC objects in the game.
         - _current_items: A list of items currently in the player's inventory.
         - _visited_locations: A list of locations the player has visited.
-        - points: The player's current point score.
+        - _points: The player's current point score.
         - _remaining_moves: The number of moves the player has remaining.
 
     Representation Invariants:
@@ -65,9 +64,10 @@ class AdventureGame:
     current_location_id: int  # Suggested attribute, can be removed
     ongoing: bool  # Suggested attribute, can be removed
     _current_items: list[Item]
-    _visited_locations = list[Location]
-    points: float  # the points the player has
+    _visited_locations: list[int]
+    points: int  # the points the player has
     remaining_moves: int
+    auto_print: bool
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
         """
@@ -92,9 +92,11 @@ class AdventureGame:
         # Suggested attributes (you can remove and track these differently if you wish to do so):
         self.current_location_id = initial_location_id  # game begins at this location
         self.ongoing = True  # whether the game is ongoing
-        self.points = 0.0
+        self.points = 0
         self.remaining_moves = 100
+        self._visited_locations = []
         self._current_items = []
+        self.auto_print = False
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item], list[NPC]]:
@@ -298,12 +300,14 @@ if __name__ == "__main__":
         game_log.add_event(Event(location.id_num, location.long_description))
 
         # YOUR CODE HERE
-        if location.visited:
-            print(location.long_description)
+        if not game.auto_print:
+            if location.id_num in game._visited_locations:
+                print(location.brief_description)
+            else:
+                print(location.long_description)
+                game._visited_locations.append(location.id_num)
         else:
-            print(location.brief_description)
-            location.visited = True
-
+            game.auto_print = False
         # Display possible actions at this location
         print("What to do? Choose from: look, inventory, score, log, quit")
         print("At this location, you can also:")
@@ -320,9 +324,10 @@ if __name__ == "__main__":
         print("You decided to:", choice)
 
         if choice in menu:
+            game.auto_print = True
+
             if choice == "log":
                 game_log.display_events()
-
             elif choice == "score":
                 print(game.score())
             elif choice == "look":
