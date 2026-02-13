@@ -42,14 +42,24 @@ class Leaderboard:
         """
         inserted = False
 
+        skip_updating = False
         for i in range(len(self.leaderboard)):
-            if score > self.leaderboard[i][1]:
-                self.leaderboard.insert(i, [username, score])
-                inserted = True
+            if username == self.leaderboard[i][0]:
+                if score > self.leaderboard[i][1]:
+                    self.leaderboard.pop(i)
+                else:
+                    skip_updating = True
                 break
 
-        if not inserted and len(self.leaderboard) < 5:
-            self.leaderboard.append([username, score])
+        if not skip_updating:
+            for i in range(len(self.leaderboard)):
+                if score > self.leaderboard[i][1]:
+                    self.leaderboard.insert(i, [username, score])
+                    inserted = True
+                    break
+
+            if not inserted and len(self.leaderboard) < 5:
+                self.leaderboard.append([username, score])
 
         if len(self.leaderboard) > 5:
             self.leaderboard.pop()
