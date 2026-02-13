@@ -231,6 +231,9 @@ class AdventureGame:
                     if self._items[i].name == desired_item:
                         self._current_items.append(self._items[i])
                         self._items[i].available = False
+                        # check if the player has picked up items that are already dropped at the target position,
+                        # if so, then the appropriate points will be deducted as the player must have received the
+                        # same amount of points by dropping the item at the target position
                         if self._items[i].target_position == self.current_location_id:
                             self.points -= self._items[i].target_points
                         return True
@@ -246,6 +249,12 @@ class AdventureGame:
         Return the full description of the current location
         """
         return self._locations[self.current_location_id].long_description
+
+    def get_items(self) -> list[Item]:
+        """
+        Return all items the game
+        """
+        return self._items
 
     def check_win(self) -> bool:
         """Return True if the player has won."""
@@ -293,10 +302,16 @@ if __name__ == "__main__":
         print("At this location, you can also:")
         for action in location.available_commands:
             print("-", action)
+        items = game.get_items()
+        for item in items:
+            if item.available and item.start_position == game.current_location_id:
+                print("- pick up", item.name)
 
         # Validate choice
         choice = input("\nEnter action: ").lower().strip()
-        while choice not in location.available_commands and choice not in menu:
+        while (choice not in location.available_commands and choice not in menu and
+               choice != "pick up "+location.items[0]):
+
             print("That was an invalid option; try again.")
             choice = input("\nEnter action: ").lower().strip()
 
@@ -334,6 +349,12 @@ if __name__ == "__main__":
                             print("You have lost "+str(-1*earned_points)+" points through this interaction.")
                         else:
                             print("You have gained "+str(earned_points)+" points through this interaction.")
+            elif choice.startswith('pick up'):
+                items = game.get_items()
+                for item in items:
+                    if item.start_position == game.current_location_id:
+                        game.pick_up(item.name)
+
             else:
                 result = location.available_commands[choice]
                 game.current_location_id = result
