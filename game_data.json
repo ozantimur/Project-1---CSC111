@@ -3,8 +3,8 @@
     {
       "id": 1,
       "name": "Bahen 1F",
-      "brief_description": "You are on the first floor of the Bahen Center. There are elevators to the West, and an exit from the building to St. George street to the East. You see something shiny on the ground -- looks like a toonie?",
-      "long_description": "You are on the first floor of the Bahen Center. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying at the table near the doors. You better not disturb them. One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. There are elevators to the West, and an exit from the building to St. George street to the East.",
+      "brief_description": "You are on the first floor of the Bahen Centre. There are elevators to the West, and an exit from the building to St. George street to the East. You see something shiny on the ground -- looks like a toonie?",
+      "long_description": "You are on the first floor of the Bahen Centre. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying at the table near the doors. You better not disturb them. One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. There are elevators to the West, and an exit from the building to St. George street to the East.",
       "availability": "True",
       "available_commands": {
         "exit building": 6
@@ -54,7 +54,7 @@
       "available_commands": {
         "exit building": 5,
         "go east": 3,
-        "talk Front desk staff": 4
+        "talk front desk staff": 4
       },
       "items": []
     },
@@ -77,7 +77,7 @@
       "long_description": "You are at the southern part of St. George Street. The Bahen Centre is nearby, it's as if it is waiting for you to enter. Across Bahen, there is the Myhal Centre entrance where you can enter Myhal. Students hurry in and out of both buildings. To the north, the street continues towards your dorm.",
       "availability": "True",
       "available_commands": {
-        "go North": 10,
+        "go north": 10,
         "enter bahen centre": 1,
         "enter myhal centre": 8
       },
@@ -202,10 +202,10 @@
     "options":
     {
       "0": {
-        "0": "Oh no, time to run!",
-        "1": "Tell the truth -- You have skipped all of his lectures recently because of the CS assignment and life has just been too tough for you.",
-        "2": "Tell a lie -- Argue that you have just been sitting in the back of the lecture hall. ",
-        "3": "Tell a better lie -- Argue that you have skipped some, BUT most of the time you have showed up to lecture, but chose to sit at the back of the lecture hall. "
+        "0": "0. Oh no, time to run!",
+        "1": "1. Tell the truth -- You have skipped all of his lectures recently because of the CS assignment and life has just been too tough for you.",
+        "2": "2. Tell a lie -- Argue that you have just been sitting in the back of the lecture hall. ",
+        "3": "3. Tell a better lie -- Argue that you have skipped some, BUT most of the time you have showed up to lecture, but chose to sit at the back of the lecture hall. "
       }
     },
     "results": {
@@ -229,4 +229,3 @@
   }
   ]
 }
-
