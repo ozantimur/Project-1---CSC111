@@ -179,6 +179,7 @@ class AdventureGame:
                     self.current_location_id = current_location.available_commands[desired_command]
                 else:
                     self._swipe(self._locations[current_location.available_commands[desired_command]])
+                    self.current_location_id = current_location.available_commands[desired_command]
         return
 
     def _unlock(self) -> None:
@@ -202,7 +203,7 @@ class AdventureGame:
         Handle the process of scanning t-card
         """
         # Checks whether the player has the t-card on themselves
-        if any([item1.name == 't-card' for item1 in self._current_items]):
+        if any([item1.name == 't card' for item1 in self._current_items]):
             print(f"You have swiped your t-card to enter {destination.name}. ", sep="", end="")
             return
         else:
@@ -261,10 +262,10 @@ if __name__ == "__main__":
     # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
     import python_ta
 
-    python_ta.check_all(config={
-        'max-line-length': 120,
-        'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
-    })
+    # python_ta.check_all(config={
+    #     'max-line-length': 120,
+    #     'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
+    # })
 
     game_log = EventList()  # This is REQUIRED as one of the baseline requirements
     game = AdventureGame('game_data.json', 2)  # load data, setting initial location ID to 1
@@ -278,7 +279,7 @@ if __name__ == "__main__":
 
         location = game.get_location()
 
-        game_log.add_event(Event(location.id_num, location.long_description))
+        game_log.add_event(Event(location.id_num, location.long_description), choice)
 
         # YOUR CODE HERE
         if not game.auto_print:
