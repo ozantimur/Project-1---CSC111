@@ -29,7 +29,7 @@
       "long_description": "You stand upright in your dorm room, heart racing. Your desk is full of notes, cables, and an empty coffee cup. The light shines weakly through the curtain. Something feels urgent, like you are forgetting something important. The door leads to the hallway, you can exit your dorm through it.",
       "availability": "True",
       "available_commands": {
-        "exit dorm": 3,
+        "exit dorm": 3
       },
       "items": ["dorm key"]
     },
