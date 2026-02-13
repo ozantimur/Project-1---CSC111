@@ -85,7 +85,7 @@ class AdventureGame:
         self.ongoing = True  # whether the game is ongoing
         self.auto_print = False
         init_points = 0.0
-        starting_num_moves = 50
+        starting_num_moves = 40
         min_points_to_win = 3.0
         dorm_loc_id = 2
         won = False
@@ -255,7 +255,7 @@ class AdventureGame:
                 self._items[i].available = True
                 self._items[i].start_position = self.current_location_id
                 self.player.remove_item(self._items[i])
-                if self.current_location_id == self._items[i]:
+                if self.current_location_id == self._items[i].target_position:
                     self.player.add_points(self._items[i].target_points)
 
                 return True
@@ -300,12 +300,12 @@ if __name__ == "__main__":
     # When you are ready to check your work with python_ta, uncomment the following lines.
     # (Delete the "#" and space before each line.)
     # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
-    import python_ta
-
-    python_ta.check_all(config={
-        'max-line-length': 120,
-        'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
-    })
+    # import python_ta
+    #
+    # python_ta.check_all(config={
+    #     'max-line-length': 120,
+    #     'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
+    # })
 
     game_log = EventList()  # This is REQUIRED as one of the baseline requirements
     game = AdventureGame('game_data.json', 2)  # load data, setting initial location ID to 1
@@ -411,7 +411,7 @@ if __name__ == "__main__":
                     game.player.set_won(False)
                     game.ongoing = False
                     print("You have successfully submitted the assignment. "
-                          "However, you have disappointed your professors! ")
+                          "However, you have disappointed your professors! -- FAIL ")
                 elif submit_met and positive_points:
                     game.player.set_won(True)
                     game.ongoing = False

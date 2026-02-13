@@ -82,24 +82,24 @@ class NPC:
     """A NPC in our text adventure game world.
 
     Instance Attributes:
-        - name: The name of this NPC.
-        - location: The id number of the location where this NPC is found.
+        basic_info: a dictionary that contains the mapping that maps string to the below:
+            - name: The name of this NPC.
+            - location: The id number of the location where this NPC is found.
+            - interacted: Whether the player has already completed dialogue with this NPC.
         - speech: A list of dialogue strings spoken by the NPC in order.
         - options: A list of dictionaries mapping option numbers (as strings)
           to the corresponding option description shown to the player.
         - results: A list of dictionaries mapping option numbers (as strings)
           to a tuple of (response string, points earned).
-        - interacted: Whether the player has already completed dialogue with this NPC.
+
 
     Representation Invariants:
-        # TODO
         - name != ""
         - location >= 0
         - len(speech) == len(options) == len(results)
         - all(isinstance(line, str) and line != "" for line in speech)
         - all(isinstance(opt, dict) for opt in options)
         - all(isinstance(res, dict) for res in results)
-        - for every index i, options[i].keys() == results[i].keys()
     """
 
     basic_info: dict[str, str | int | bool]
