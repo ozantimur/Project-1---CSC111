@@ -160,10 +160,17 @@ class AdventureGame:
         else:
             return self._locations[self.current_location_id]
 
-    def inventory(self) -> list[Item]:
+    def inventory(self) -> str:
         """Return the current inventory of the player while the game is played.
         """
-        return self._current_items
+        items = [item.name for item in self._current_items]
+        items_string = ""
+        for item in items:
+            items_string += item + ", "
+        if items_string != "":
+            items_string = items_string[:-2]
+
+        return "[" + items_string + "]"
 
     def move(self, desired_command: str) -> None:
         """Move the player to the new location based on the command
@@ -191,9 +198,9 @@ class AdventureGame:
         """
         # Check if the player has a key or not
         key = None
-        for item in self._current_items:
-            if item.name.endswith('key'):
-                key = item
+        for my_item in self._current_items:
+            if my_item.name.endswith('key'):
+                key = my_item
         if key:
             print(f"You have unlocked the door using your {key.name}. ", sep="", end="")
         else:
@@ -302,8 +309,8 @@ if __name__ == "__main__":
         print("At this location, you can also:")
         for action in location.available_commands:
             print("-", action)
-        items = game.get_items()
-        for item in items:
+        my_items = game.get_items()
+        for item in my_items:
             if item.available and item.start_position == game.current_location_id:
                 print("- pick up", item.name)
 
@@ -379,15 +386,17 @@ if __name__ == "__main__":
 
     if game.won:
         print("You won!")
+        username = input("Enter your username for the leaderboard: ").strip()
+        final_score = float(game.score())
+        leaderboard = Leaderboard()
+        leaderboard.update(username, final_score)
+        leaderboard.save()
+        leaderboard.print()
     else:
         if game.remaining_moves == 0:
             print("Game over — you ran out of moves.")
         else:
             print("Game over - you gave up")
 
-    username = input("Enter your username for the leaderboard: ").strip()
-    final_score = float(game.score())
-    leaderboard = Leaderboard()
-    leaderboard.update(username, final_score)
-    leaderboard.save()
-    leaderboard.print()
+        leaderboard = Leaderboard()
+        leaderboard.print()
