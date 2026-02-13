@@ -1,5 +1,6 @@
 import json
 
+
 class Leaderboard:
     """
     A leaderboard that keeps the top 5 player scores and saves them in a JSON file.

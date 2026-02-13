@@ -44,15 +44,15 @@ class Location:
         - all(isinstance(dest, int) and dest >= 0 for dest in available_commands.values())
         - all(isinstance(item, str) and item != "" for item in items)
     """
-
     name: str
     id_num: int
     brief_description: str
     long_description: str
     available_commands: dict[str, int]
     items: list[str]
-    visited: bool
-    availability: bool
+    visited_availability: dict[str, bool]
+    # visited: bool
+    # availability: bool
 
 
 @dataclass
@@ -74,6 +74,7 @@ class Item:
     name: str
     start_position: int
     target_position: int
+    target_points: int
     available: bool
 
 
@@ -101,7 +102,7 @@ class NPC:
         - for every index i, options[i].keys() == results[i].keys()
     """
 
-    name: str
+    basic_info: dict[str, str | int | bool]
     speech: list[str]
     options: list[dict[str, str]]
     results: list[dict[str, float]]
@@ -109,19 +110,16 @@ class NPC:
 
     def __init__(
             self,
-            name: str,
-            location: int,
+            basic_info: tuple[str, int],
             speech: list[str],
             options: list[dict[str, str]],
             results: list[dict[str, float]]) -> None:
 
         """Initialize a new NPC."""
-        self.name = name
-        self.location = location
+        self.basic_info = {"name": basic_info[0], "location": basic_info[1], "interacted": False}
         self.speech = speech
         self.options = options
         self.results = results
-        self.interacted = False
 
     def dialogue(self) -> tuple[float, bool]:
         """
@@ -131,53 +129,52 @@ class NPC:
         total_earned_score = 0
         player_input = "this is a place holder"
         index = 0
-        if not self.interacted:
-            # The "0" option is the "End conversation option"
-            while (player_input != "quit" or player_input != "0") and index < len(self.speech):
-                print(self.speech[index])  # What the NPC says
+        if self.basic_info["interacted"]:
+            print("You have already interacted with " + self.basic_info["name"] + ".")
+            return 0.0, True
+
+        # The "0" option is the "End conversation option"
+        while (player_input != "quit" or player_input != "0") and index < len(self.speech):
+            self.basic_info["interacted"] = True
+            print(self.speech[index])  # What the NPC says
+            print("Available options below: ")
+            for option in self.options[index]:
+                print(self.options[index][option])
+            print()
+            player_input = input("Select your option: ").strip()
+            chosen_option = self.options[index].get(player_input)
+            # Validate choice
+            while not chosen_option:
+                print("That was an invalid option: try again.\n")
                 print("Available options below: ")
                 for option in self.options[index]:
                     print(self.options[index][option])
                 print()
                 player_input = input("Select your option: ").strip()
                 chosen_option = self.options[index].get(player_input)
-                # Validate choice
-                while not chosen_option:
-                    print("That was an invalid option: try again.\n")
-                    print("Available options below: ")
-                    for option in self.options[index]:
-                        print(self.options[index][option])
-                    print()
-                    player_input = input("Select your option: ").strip()
-                    chosen_option = self.options[index].get(player_input)
 
-                response, earned_score = self.results[index][player_input]
-                print(response)
-                total_earned_score += earned_score
-                if player_input == "0":
-                    break
-                index += 1
-            print("\nDialogue is over.\n")
-            # the front desk staff is the only npc the player can repeatedly interact with,
-            # this prevents the player to drop the key on purpose
-            if self.name != "front desk staff":
-                self.interacted = True
-            if player_input == "quit":
-                return total_earned_score, False
-            elif player_input == "0":
-                return total_earned_score, True
-        else:
-            print("You have already interacted with " + self.name + ".")
+            response, earned_score = self.results[index][player_input]
+            print(response)
+            total_earned_score += earned_score
+            if player_input == "0":
+                break
+            index += 1
+        print("\nDialogue is over.\n")
+
+        if player_input == "quit":
+            return total_earned_score, False
+        elif player_input == "0":
+            return total_earned_score, True
         return total_earned_score, True
 
 
 if __name__ == "__main__":
-    pass
+    # pass
     # When you are ready to check your work with python_ta, uncomment the following lines.
     # (Delete the "#" and space before each line.)
     # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
-    # import python_ta
-    # python_ta.check_all(config={
-    #     'max-line-length': 120,
-    #     'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
-    # })
+    import python_ta
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
+    })

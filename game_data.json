@@ -164,31 +164,36 @@
       "name": "usb drive",
       "description": "You notice a small USB drive left behind on a nearby table.",
       "start_position": 0,
-      "target_position": 2
+      "target_position": 2,
+      "target_points": 1
     },
     {
       "name": "laptop charger",
       "description": "You notice a laptop charger lying on a nearby table.",
       "start_position": 8,
-      "target_position": 2
+      "target_position": 2,
+      "target_points": 1
     },
     {
       "name": "lucky uoft mug",
       "description": "You notice a chipped u of t mug sitting on a desk.",
       "start_position": 12,
-      "target_position": 2
+      "target_position": 2,
+      "target_points": 1
     },
     {
       "name": "dorm key",
       "description": "You notice your dorm key resting where you left it.",
       "start_position": 2,
-      "target_position": 2
+      "target_position": 2,
+      "target_points": 1
     },
     {
       "name": "t card",
       "description": "You notice your T-card lying nearby.",
       "start_position": 7,
-      "target_position": 2
+      "target_position": 2,
+      "target_points": 0
     }
   ],
   "npcs": [
