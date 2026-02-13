@@ -63,20 +63,17 @@ class Item:
         - name: The name of this item.
         - start_position: The id number of the location where this item spawns in.
         - target_position: The id number of the location where this item is used.
-        - target_points: The amount of points awarded when the item is brought to its target_position.
         - available: Whether this item is currently available in the game.
 
     Representation Invariants:
         - name != ""
         - start_position >= 0
         - target_position >= 0
-        - target_points >= 0
     """
 
     name: str
     start_position: int
     target_position: int
-    target_points: int
     available: bool
 
 

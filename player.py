@@ -58,3 +58,7 @@ class Player:
 
     def set_won(self, won: bool) -> None:
         self._won = won
+
+    def remove_item(self, item: Item) -> None:
+        if item in self._current_items:
+            self._current_items.remove(item)
