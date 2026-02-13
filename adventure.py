@@ -94,6 +94,7 @@ class AdventureGame:
         self.ongoing = True  # whether the game is ongoing
         self._points = 0
         self.remaining_moves = 100
+        self._visited_locations = []
         self._current_items = []
 
     @staticmethod
@@ -298,11 +299,11 @@ if __name__ == "__main__":
         game_log.add_event(Event(location.id_num, location.long_description))
 
         # YOUR CODE HERE
-        if not location.visited:
-            print(location.long_description)
-        else:
+        if location.id_num in game._visited_locations:
             print(location.brief_description)
-            location.visited = True
+        else:
+            print(location.long_description)
+            game._visited_locations.append(location.id_num)
 
         # Display possible actions at this location
         print("What to do? Choose from: look, inventory, score, log, quit")
