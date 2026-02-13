@@ -68,6 +68,7 @@ class AdventureGame:
     points: int  # the points the player has
     remaining_moves: int
     auto_print: bool
+    won: bool
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
         """
@@ -97,6 +98,7 @@ class AdventureGame:
         self._visited_locations = []
         self._current_items = []
         self.auto_print = False
+        self.won = False
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item], list[NPC]]:
@@ -274,6 +276,13 @@ class AdventureGame:
         """
         return self._locations[self.current_location_id].long_description
 
+    def check_win(self) -> bool:
+        """Return True if the player has won."""
+        in_dorm = (self.current_location_id == 2)
+        has_all_items = (len(self._current_items) == len(self._items))
+        has_positive_points = (self.points > 0)
+        return in_dorm and has_all_items and has_positive_points
+
 
 if __name__ == "__main__":
     # When you are ready to check your work with python_ta, uncomment the following lines.
@@ -359,9 +368,20 @@ if __name__ == "__main__":
 
             # TODO: Add in code to deal with special locations (e.g. puzzles) as needed for your game
 
-        if game.remaining_moves <= 0:
-            print("Out of moves!")  # The player run out of moves so the game ends automatically
+        if game.check_win():
+            game.won = True
             game.ongoing = False
+
+        elif game.remaining_moves <= 0:
+            game.ongoing = False
+
+    if game.won:
+        print("You won!")
+    else:
+        if game.remaining_moves == 0:
+            print("Game over — you ran out of moves.")
+        else:
+            print("Game over - you gave up")
 
     username = input("Enter your username for the leaderboard: ").strip()
     final_score = float(game.score())
