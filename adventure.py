@@ -64,9 +64,10 @@ class AdventureGame:
     current_location_id: int  # Suggested attribute, can be removed
     ongoing: bool  # Suggested attribute, can be removed
     _current_items: list[Item]
-    _visited_locations = list[Location]
+    _visited_locations: list[int]
     _points: int  # the points the player has
     remaining_moves: int
+    auto_print: bool
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
         """
@@ -95,6 +96,7 @@ class AdventureGame:
         self.remaining_moves = 100
         self._visited_locations = []
         self._current_items = []
+        self.auto_print = False
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item], list[NPC]]:
@@ -298,12 +300,14 @@ if __name__ == "__main__":
         game_log.add_event(Event(location.id_num, location.long_description))
 
         # YOUR CODE HERE
-        if location.id_num in game._visited_locations:
-            print(location.brief_description)
+        if not game.auto_print:
+            if location.id_num in game._visited_locations:
+                print(location.brief_description)
+            else:
+                print(location.long_description)
+                game._visited_locations.append(location.id_num)
         else:
-            print(location.long_description)
-            game._visited_locations.append(location.id_num)
-
+            game.auto_print = False
         # Display possible actions at this location
         print("What to do? Choose from: look, inventory, score, log, quit")
         print("At this location, you can also:")
@@ -320,9 +324,10 @@ if __name__ == "__main__":
         print("You decided to:", choice)
 
         if choice in menu:
+            game.auto_print = True
+
             if choice == "log":
                 game_log.display_events()
-
             elif choice == "score":
                 print(game.score())
             elif choice == "look":
