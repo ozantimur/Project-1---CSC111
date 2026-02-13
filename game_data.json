@@ -162,14 +162,14 @@
   {
     "name": "usb drive",
     "description": "A small USB drive containing the only copy of your game.",
-    "start_position": 2,
+    "start_position": 12,
     "target_position": 2,
     "target_points": 20
   },
   {
     "name": "laptop charger",
     "description": "Your laptop charger, desperately needed with your battery hovering at 5%.",
-    "start_position": 4,
+    "start_position": 11,
     "target_position": 2,
     "target_points": 15
   },
@@ -189,8 +189,8 @@
   },
   {
     "name": "t-card",
-    "description": "Student card, it helps you access buildings like Bahen and Robarts.",
-    "start_position": 7,
+    "description": "Student card, it helps you access buildings like Bahen.",
+    "start_position": 8,
     "target_position": 1,
     "target_points": 5
   }
