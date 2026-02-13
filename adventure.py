@@ -22,6 +22,8 @@ import json
 from os import remove
 from typing import Optional
 
+from jedi.debug import speed
+
 from game_entities import Location, Item, NPC
 from event_logger import Event, EventList
 from leaderboard import Leaderboard
@@ -37,7 +39,7 @@ class AdventureGame:
 
     Instance Attributes:
         - current_location_id: The id of the player's current Location.
-        - ongoing: Whether or not the game is currently active.
+        - ongoing: Whether the game is currently active.
         - _locations: A mapping from location id numbers to Location objects.
         - _items: A list of all item objects in the game.
         - _npcs: A list of all NPC objects in the game.
@@ -85,13 +87,14 @@ class AdventureGame:
         # 2. Make sure the Item class is used to represent each item.
 
         # Suggested helper method (you can remove and load these differently if you wish to do so):
-        self._locations, self._items = self._load_game_data(game_data_file)
+        self._locations, self._items, self._npcs = self._load_game_data(game_data_file)
 
         # Suggested attributes (you can remove and track these differently if you wish to do so):
         self.current_location_id = initial_location_id  # game begins at this location
         self.ongoing = True  # whether the game is ongoing
         self._points = 0
         self.remaining_moves = 100
+        self._current_items = []
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item], list[NPC]]:
@@ -111,7 +114,7 @@ class AdventureGame:
             location_obj = Location(loc_data['name'], loc_data['id'], loc_data['brief_description'],
                                     loc_data['long_description'],
                                     loc_data['available_commands'], loc_data['items'],
-                                    loc_data['availability'] == "True")
+                                    False, loc_data['availability'] == "True")
             locations[loc_data['id']] = location_obj
 
         for item_data in data["items"]:
@@ -119,10 +122,26 @@ class AdventureGame:
                             item_data['target_points'], True)
             items.append(item_obj)
 
-        for npc_data in data["npcs"]:
-            npc_obj = NPC(npc_data['name'], npc_data['conversations'], npc_data['location'],
-                            npc_data['plus_points'], npc_data['minus_points'])
-            npcs.append(npc_obj)
+        #     npc_obj = NPC(npc_data['name'], npc_data[''], npc_data['location'])
+        #     npcs.append(npc_obj)
+
+        for npc in data["npcs"]:
+            speech = list(npc["speech"].values())
+            options = list(npc["options"].values())
+            # results: list[dict[str, float]]
+            results = []
+
+            for result_block in npc["results"].values():
+                responses = result_block["response"]
+                scores = result_block["earned_score"]
+
+                responses_scores = {response: (responses[response], float(scores[response]))for response in responses}
+                results.append(responses_scores)
+
+            name = npc["name"]
+            npc_location = npc["location"]
+
+            npcs.append(NPC(name, npc_location, speech, options, results))
 
         return locations, items, npcs
 
@@ -252,9 +271,6 @@ class AdventureGame:
         Return the full description of the current location
         """
         return self._locations[self.current_location_id].long_description
-    # drop method, update points
-
-
 
 
 if __name__ == "__main__":
@@ -306,7 +322,7 @@ if __name__ == "__main__":
         if choice in menu:
             if choice == "log":
                 game_log.display_events()
-                
+
             elif choice == "score":
                 print(game.score())
             elif choice == "look":
@@ -333,7 +349,7 @@ if __name__ == "__main__":
             # TODO: Add in code to deal with special locations (e.g. puzzles) as needed for your game
 
         if game.remaining_moves <= 0:
-            print("Out of moves!") #The player run out of moves so the game ends automatically
+            print("Out of moves!")  # The player run out of moves so the game ends automatically
             game.ongoing = False
 
     username = input("Enter your username for the leaderboard: ").strip()
