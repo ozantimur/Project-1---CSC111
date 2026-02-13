@@ -12,7 +12,7 @@ class Leaderboard:
         - len(self.leaderboard) <= 5
         - all(len(entry) == 2 for entry in self.leaderboard)
         - all(isinstance(entry[0], str) for entry in self.leaderboard)
-        - all(isinstance(entry[1], float)) for entry in self.leaderboard)
+        - all(isinstance(entry[1], float) for entry in self.leaderboard)
         - self.leaderboard is sorted in descending order by score
     """
     filename: str

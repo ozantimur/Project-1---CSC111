@@ -22,7 +22,6 @@ import json
 from os import remove
 from typing import Optional
 
-from jedi.debug import speed
 
 from game_entities import Location, Item, NPC
 from event_logger import Event, EventList
