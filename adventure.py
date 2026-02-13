@@ -64,7 +64,7 @@ class AdventureGame:
     current_location_id: int  # Suggested attribute, can be removed
     ongoing: bool  # Suggested attribute, can be removed
     _current_items: list[Item]
-    _visited_locations: list[int]
+    visited_locations: list[int]
     points: int  # the points the player has
     remaining_moves: int
     auto_print: bool
@@ -94,7 +94,7 @@ class AdventureGame:
         self.ongoing = True  # whether the game is ongoing
         self.points = 0
         self.remaining_moves = 100
-        self._visited_locations = []
+        self.visited_locations = []
         self._current_items = []
         self.auto_print = False
 
@@ -301,11 +301,11 @@ if __name__ == "__main__":
 
         # YOUR CODE HERE
         if not game.auto_print:
-            if location.id_num in game._visited_locations:
+            if location.id_num in game.visited_locations:
                 print(location.brief_description)
             else:
                 print(location.long_description)
-                game._visited_locations.append(location.id_num)
+                game.visited_locations.append(location.id_num)
         else:
             game.auto_print = False
         # Display possible actions at this location
@@ -339,8 +339,7 @@ if __name__ == "__main__":
 
         else:
             # Handle non-menu actions
-            result = location.available_commands[choice]
-            game.current_location_id = result
+
             game.remaining_moves -= 1
 
             # TODO: Add in code to deal with actions which do not change the location (e.g. taking or using an item)
@@ -351,6 +350,9 @@ if __name__ == "__main__":
                     if curr_npc.location == game.current_location_id:
                         earned_points, game.ongoing = curr_npc.dialogue()
                         game.points += earned_points
+            else:
+                result = location.available_commands[choice]
+                game.current_location_id = result
             """
             # TODO: Make sure to include the case to subtract points for some NPC interactions. It has to be done here,
             by constructing the NPC method such that it returns a value of how much points the player gets 
