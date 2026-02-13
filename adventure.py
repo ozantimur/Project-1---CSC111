@@ -352,16 +352,18 @@ if __name__ == "__main__":
                     if item.start_position == game.current_location_id:
                         game.pick_up(item.name)
 
+            elif choice.startswith("submit"):
+                if game.check_win():
+                    game.won = True
+                    game.ongoing = False
+                else:
+                    print("You are not met the requirements to submit the assignment!")
             else:
                 result = location.available_commands[choice]
                 game.current_location_id = result
 
         if game.remaining_moves <= 0:
             print("Out of moves!")  # The player run out of moves so the game ends automatically
-            game.ongoing = False
-
-        if game.check_win():
-            game.won = True
             game.ongoing = False
 
         elif game.remaining_moves <= 0:

@@ -7,7 +7,8 @@
       "long_description": "You are on the first floor of the Bahen Centre. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying at the table near the doors. You better not disturb them. One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. There are elevators to the West, and an exit from the building to St. George street to the East.",
       "availability": "True",
       "available_commands": {
-        "exit building": 6
+        "exit building": 6,
+        "go west": 9
       },
       "items": []
     },
@@ -20,16 +21,17 @@
       "available_commands": {
         "exit building": 7
       },
-      "items": []
+      "items": ["usb drive"]
     },
     {
       "id": 2,
       "name": "dorm",
-      "brief_description": "You are in your dorm room, waking up in panic.",
+      "brief_description": "You are in your dorm room.",
       "long_description": "You stand upright in your dorm room, heart racing. Your desk is full of notes, cables, and an empty coffee cup. The light shines weakly through the curtain. Something feels urgent, like you are forgetting something important. The door leads to the hallway, you can exit your dorm through it.",
-      "availability": "True",
+      "availability": "False",
       "available_commands": {
-        "exit dorm": 3
+        "exit dorm": 3,
+        "submit assignment": 2
       },
       "items": ["dorm key"]
     },
@@ -49,12 +51,11 @@
       "id": 4,
       "name": "Morison Hall entrance and front desk",
       "brief_description": "You are at the entrance of Morison Hall near the front desk.",
-      "long_description": "You stand near the doors of Morison Hall. There stands a front desk staff, looking right into your soul, maybe they want to talk? The bulletin board behind them has event posters. You can exit the building to reach St. George Street. The elevator back up to the residence floors is at the east.",
+      "long_description": "You stand near the doors of Morison Hall. The bulletin board behind them has event posters. You can exit the building to reach St. George Street. The elevator back up to the residence floors is at the east.",
       "availability": "True",
       "available_commands": {
         "exit building": 5,
-        "go east": 3,
-        "talk front desk staff": 4
+        "go east": 3
       },
       "items": []
     },
@@ -66,7 +67,8 @@
       "availability": "True",
       "available_commands": {
         "go south": 10,
-        "go north": 7
+        "go north": 7,
+        "enter morrison hall": 4
       },
       "items": []
     },
@@ -94,7 +96,7 @@
         "go south": 5,
         "talk arnab kumar": 7
       },
-      "items": []
+      "items": ["t card"]
     },
     {
       "id": 8,
@@ -105,7 +107,7 @@
       "available_commands": {
         "exit": 6
       },
-      "items": []
+      "items": ["laptop charger"]
     },
     {
       "id": 9,
@@ -154,7 +156,7 @@
       "available_commands": {
         "go north": 9
       },
-      "items": []
+      "items": ["lucky uoft mug"]
     }
   ],
   "items": [
@@ -173,8 +175,8 @@
       "target_points": 10
     },
     {
-      "name": "lucky U of T mug",
-      "description": "You notice a chipped U of T mug sitting on a desk.",
+      "name": "lucky uoft mug",
+      "description": "You notice a chipped u of t mug sitting on a desk.",
       "start_position": 12,
       "target_position": 2,
       "target_points": 15
@@ -187,7 +189,7 @@
       "target_points": 0
     },
     {
-      "name": "t-card",
+      "name": "t card",
       "description": "You notice your T-card lying nearby.",
       "start_position": 7,
       "target_position": 2,
@@ -197,8 +199,8 @@
   "npcs": [
   {
     "speech": {
-      "1": "Hey! I haven't seen you for a long while in my lecture! Did you skip all of my lectures?",
-      "2": "Is that so? Let's check how prepared you are for the upcoming term test...\nWhich statement is equivalent to \"Let a(n) denote the term of a sequence at n. Which statement below is NOT logically equivalent to 'Limit of a(n) as n->infinity = L'?"
+      "1": "Boris: Hey! I haven't seen you for a long while in my lecture! Did you skip all of my lectures?",
+      "2": "Boris: Is that so? Let's check how prepared you are for the upcoming term test...\nWhich statement is equivalent to \"Let a(n) denote the term of a sequence at n. Which statement below is NOT logically equivalent to 'Limit of a(n) as n->infinity = L'?"
     },
     "options":
     {
@@ -252,6 +254,74 @@
     },
     "name": "Boris Khesin",
     "location": 10
-  }
+  },
+    {
+      "speech": {
+        "1": "Paul: Hey! How is the CS project going?",
+        "2": "Paul: Anything else?"
+      },
+      "options": {
+        "0": {
+          "0": "0. Oh no, time to run!",
+          "1": "1. Tell the truth -- Your CS assignment has not been handed in yet as you are in search of your lost items.",
+          "2": "2. Be humourous -- Your CS assignment has not been handed in yet as your dog ate your USB drive. "
+        },
+        "1": {
+          "0": "0. Say you are in a rush and leave. ",
+          "1": "1. Inquire about the whereabouts of your lost items."
+        }
+      },
+      "results": {
+        "0": {
+          "response": {
+            "0": "Knowing you are desperately out of time as the CS assignment is due, you said you are in a hurry and ended the conversation.",
+            "1": "You told the truth. Paul is not too suprised, and he wishes you good luck on finding the lost items. He appreciated you for telling the truth. ",
+            "2": "HAHAHA -- Paul found this funny."
+          },
+          "earned_score": {
+            "0": 0,
+            "1": 5,
+            "2": 10
+          }
+        },
+        "1": {
+          "response": {
+            "0": "Knowing you are desperately out of time as the CS assignment is due, you said you are in a hurry and ended the conversation.",
+            "1": "Paul: Oh... well. I remember I did see a laptop charger somewhere on this floor... "
+          },
+          "earned_score": {
+            "0": 0,
+            "1": 5
+          }
+        }
+      },
+      "name": "Paul He",
+      "location": 9
+    },
+
+    {
+      "speech": {
+        "1": "Arnab: Hey! How is the CS project going? You left your T-card in Robarts and I got it for you."
+      },
+      "options": {
+        "0": {
+          "0": "0. Tell him you lost your items and the CS project is not handed in yet -- you are in a hurry!"
+        }
+      },
+
+      "results": {
+        "0": {
+          "response": {
+            "0": "You dapped your buddy Arnab and said goodbye, knowing that you are a little cooked the CS project."
+          },
+          "earned_score": {
+            "0": 0,
+            "1": 5
+          }
+        }
+      },
+        "name": "Arnab Kumar",
+        "location": 7
+    }
   ]
 }
