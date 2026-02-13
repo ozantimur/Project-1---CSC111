@@ -108,6 +108,7 @@ class NPC:
         self.speech = speech
         self.options = options
         self.results = results
+        self.interacted = False
 
     def dialogue(self) -> tuple[float, bool]:
         """
@@ -117,41 +118,44 @@ class NPC:
         total_earned_score = 0
         player_input = "this is a place holder"
         index = 0
-        # The "0" option is the "End conversation option"
-        while player_input != "quit" or player_input != "0":
-            print(self.speech[index])  # What the NPC say
-            self.print_options()
-            player_input = input("Select your option: ").strip()
-            chosen_option = self.options[index].get(player_input)
-
-            # Validate choice
-            while not chosen_option:
-                print("That was an invalid option: try again.\n")
-                self.print_options()
+        if not self.interacted:
+            # The "0" option is the "End conversation option"
+            while (player_input != "quit" or player_input != "0") and index < len(self.speech):
+                print(self.speech[index])  # What the NPC says
+                print("Available options below: ")
+                for option in self.options[index]:
+                    print(self.options[index][option])
+                print()
                 player_input = input("Select your option: ").strip()
                 chosen_option = self.options[index].get(player_input)
+                # Validate choice
+                while not chosen_option:
+                    print("That was an invalid option: try again.\n")
+                    print("Available options below: ")
+                    for option in self.options[index]:
+                        print(self.options[index][option])
+                    print()
+                    player_input = input("Select your option: ").strip()
+                    chosen_option = self.options[index].get(player_input)
 
-            response, earned_score = self.results[index][player_input]
-            print(response)
-            total_earned_score += earned_score
-            if player_input == "0":
-                break
-            index += 1
-        print("\nDialogue is over.\n")
-        if player_input == "quit":
-            return 0.0, False
-        elif player_input == "0":
-            return 0.0, True
-        return 0.0, True
-
-    def print_options(self) -> None:
-        """
-        Handles printing the available options for the player to see
-        """
-        print("Available options below: ")
-        for option in self.options:
-            print(self.options[option])
-        print()
+                response, earned_score = self.results[index][player_input]
+                print(response)
+                total_earned_score += earned_score
+                if player_input == "0":
+                    break
+                index += 1
+            print("\nDialogue is over.\n")
+            # the front desk staff is the only npc the player can repeatedly interact with,
+            # this prevents the player to drop the key on purpose
+            if self.name != "front desk staff":
+                self.interacted = True
+            if player_input == "quit":
+                return total_earned_score, False
+            elif player_input == "0":
+                return total_earned_score, True
+        else:
+            print("You have already interacted with " + self.name + ".")
+        return total_earned_score, True
 
 
 if __name__ == "__main__":

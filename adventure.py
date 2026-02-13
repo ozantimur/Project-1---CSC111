@@ -22,6 +22,7 @@ import json
 from os import remove
 from typing import Optional
 
+from jedi.debug import speed
 
 from game_entities import Location, Item, NPC
 from event_logger import Event, EventList
@@ -41,10 +42,10 @@ class AdventureGame:
         - ongoing: Whether the game is currently active.
         - _locations: A mapping from location id numbers to Location objects.
         - _items: A list of all item objects in the game.
-        - _npcs: A list of all NPC objects in the game.
+        - npcs: A list of all NPC objects in the game.
         - _current_items: A list of items currently in the player's inventory.
         - _visited_locations: A list of locations the player has visited.
-        - _points: The player's current point score.
+        - points: The player's current point score.
         - _remaining_moves: The number of moves the player has remaining.
 
     Representation Invariants:
@@ -60,14 +61,13 @@ class AdventureGame:
 
     _locations: dict[int, Location]
     _items: list[Item]
-    _npcs: list[NPC]
+    npcs: list[NPC]
     current_location_id: int  # Suggested attribute, can be removed
     ongoing: bool  # Suggested attribute, can be removed
     _current_items: list[Item]
-    _visited_locations: list[int]
-    _points: int  # the points the player has
+    _visited_locations = list[Location]
+    points: float  # the points the player has
     remaining_moves: int
-    auto_print: bool
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
         """
@@ -87,16 +87,14 @@ class AdventureGame:
         # 2. Make sure the Item class is used to represent each item.
 
         # Suggested helper method (you can remove and load these differently if you wish to do so):
-        self._locations, self._items, self._npcs = self._load_game_data(game_data_file)
+        self._locations, self._items, self.npcs = self._load_game_data(game_data_file)
 
         # Suggested attributes (you can remove and track these differently if you wish to do so):
         self.current_location_id = initial_location_id  # game begins at this location
         self.ongoing = True  # whether the game is ongoing
-        self._points = 0
+        self.points = 0.0
         self.remaining_moves = 100
-        self._visited_locations = []
         self._current_items = []
-        self.auto_print = False
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item], list[NPC]]:
@@ -232,7 +230,7 @@ class AdventureGame:
                         # if so, then the appropriate points will be deducted as the player must have received the
                         # same amount of points by dropping the item at the target position
                         if self._items[i].target_position == self.current_location_id:
-                            self._points -= self._items[i].target_points
+                            self.points -= self._items[i].target_points
                         return True
         return False
 
@@ -257,7 +255,7 @@ class AdventureGame:
                         # check if the player has dropped the item at the target location
                         if self.current_location_id == self._items[i]:
                             # if so, reward the player with the corresponding amount of points
-                            self._points += self._items[i].target_points
+                            self.points += self._items[i].target_points
 
                         self._current_items.remove(self._items[i])
                         return True
@@ -266,7 +264,7 @@ class AdventureGame:
     def score(self) -> float:
         """Return the player's score so far
         """
-        return self._points
+        return self.points
 
     def look(self) -> str:
         """
@@ -300,14 +298,12 @@ if __name__ == "__main__":
         game_log.add_event(Event(location.id_num, location.long_description))
 
         # YOUR CODE HERE
-        if not game.auto_print:
-            if location.id_num in game._visited_locations:
-                print(location.brief_description)
-            else:
-                print(location.long_description)
-                game._visited_locations.append(location.id_num)
+        if location.visited:
+            print(location.long_description)
         else:
-            game.auto_print = False
+            print(location.brief_description)
+            location.visited = True
+
         # Display possible actions at this location
         print("What to do? Choose from: look, inventory, score, log, quit")
         print("At this location, you can also:")
@@ -324,10 +320,9 @@ if __name__ == "__main__":
         print("You decided to:", choice)
 
         if choice in menu:
-            game.auto_print = True
-
             if choice == "log":
                 game_log.display_events()
+
             elif choice == "score":
                 print(game.score())
             elif choice == "look":
@@ -346,11 +341,17 @@ if __name__ == "__main__":
             # TODO: Add in code to deal with actions which do not change the location (e.g. taking or using an item)
             if choice.startswith("go") or choice == "exit" or choice.startswith("enter"):
                 game.move(choice)
+            elif choice.startswith('talk'):
+                for curr_npc in game.npcs:
+                    if curr_npc.location == game.current_location_id:
+                        earned_points, game.ongoing = curr_npc.dialogue()
+                        game.points += earned_points
             """
             # TODO: Make sure to include the case to subtract points for some NPC interactions. It has to be done here,
             by constructing the NPC method such that it returns a value of how much points the player gets 
             Positive for earning points, negative for losing points. 
             """
+
             # TODO: Add in code to deal with special locations (e.g. puzzles) as needed for your game
 
         if game.remaining_moves <= 0:
