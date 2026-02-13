@@ -188,7 +188,7 @@
     "target_points": 0
   },
   {
-    "name": "T-card",
+    "name": "t-card",
     "description": "Student card, it helps you access buildings like Bahen and Robarts.",
     "start_position": 7,
     "target_position": 1,
