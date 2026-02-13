@@ -163,21 +163,21 @@
     "name": "usb drive",
     "description": "A small USB drive containing the only copy of your game.",
     "start_position": 2,
-    "target_position": 6,
+    "target_position": 2,
     "target_points": 20
   },
   {
     "name": "laptop charger",
     "description": "Your laptop charger, desperately needed with your battery hovering at 5%.",
     "start_position": 4,
-    "target_position": 6,
+    "target_position": 2,
     "target_points": 15
   },
   {
     "name": "lucky U of T mug",
     "description": "Your beloved University of Toronto mug. It’s absolutely irreplaceable.",
     "start_position": 3,
-    "target_position": 6,
+    "target_position": 2,
     "target_points": 10
   },
   {
