@@ -161,7 +161,7 @@
   "items": [
   {
     "name": "usb drive",
-    "description": "A small USB drive containing the only copy of your game. Losing this would be catastrophic.",
+    "description": "A small USB drive containing the only copy of your game.",
     "start_position": 2,
     "target_position": 6,
     "target_points": 20
@@ -175,21 +175,21 @@
   },
   {
     "name": "lucky U of T mug",
-    "description": "Your beloved University of Toronto mug. It’s chipped, sentimental, and absolutely irreplaceable.",
+    "description": "Your beloved University of Toronto mug. It’s absolutely irreplaceable.",
     "start_position": 3,
     "target_position": 6,
     "target_points": 10
   },
   {
     "name": "dorm key",
-    "description": "Your dorm's key",
+    "description": "Your dorm's key, make sure you dont lose or forget it!",
     "start_position": 2,
     "target_position": 2,
     "target_points": 0
   },
   {
     "name": "T-card",
-    "description": "Student card, it helps you access in Bahen",
+    "description": "Student card, it helps you access buildings like Bahen and Robarts.",
     "start_position": 7,
     "target_position": 1,
     "target_points": 5
