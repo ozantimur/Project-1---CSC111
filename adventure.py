@@ -231,9 +231,6 @@ class AdventureGame:
                     if self._items[i].name == desired_item:
                         self._current_items.append(self._items[i])
                         self._items[i].available = False
-                        # check if the player has picked up items that are already dropped at the target position,
-                        # if so, then the appropriate points will be deducted as the player must have received the
-                        # same amount of points by dropping the item at the target position
                         if self._items[i].target_position == self.current_location_id:
                             self.points -= self._items[i].target_points
                         return True
