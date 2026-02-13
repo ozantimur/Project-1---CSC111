@@ -5,6 +5,7 @@
       "name": "Bahen 1F",
       "brief_description": "You are on the first floor of the Bahen Center. There are elevators to the West, and an exit from the building to St. George street to the East. You see something shiny on the ground -- looks like a toonie?",
       "long_description": "You are on the first floor of the Bahen Center. It's usually crowded at this time of the day, but today it's eerily quiet. Only a few students are studying at the table near the doors. You better not disturb them. One student is rushing down the corridor, wearing a heavy-looking backpack and carrying a textbook in their arms. There are elevators to the West, and an exit from the building to St. George street to the East.",
+      "availability": "True",
       "available_commands": {
         "exit building": 6
       },
@@ -15,124 +16,146 @@
       "name": "Robarts Library 1st floor",
       "brief_description": "You are on the first floor of Robarts Library, the concrete walls and the serious atmosphere makes the space feel like a fortress. You can exit the building to reach St. George Street.",
       "long_description": "You are on the first floor of Robarts Library, lined with brutalist concrete and fluorescent lights that hum faintly overhead. A few students sit scattered across the tables, buried behind stacks of books and laptop screens. The air smells of paper and despair. The main doors lead back out, you can exit the building to reach St. George Street.",
+      "availability": "False",
       "available_commands": {
         "exit building": 7
-
-      }
+      },
+      "items": []
     },
     {
       "id": 2,
       "name": "dorm",
       "brief_description": "You are in your dorm room, waking up in panic.",
       "long_description": "You stand upright in your dorm room, heart racing. Your desk is full of notes, cables, and an empty coffee cup. The light shines weakly through the curtain. Something feels urgent, like you are forgetting something important. The door leads to the hallway, you can exit your dorm through it.",
+      "availability": "True",
       "available_commands": {
-        "exit dorm": 3
-      }
+        "exit dorm": 3,
+      },
+      "items": ["dorm key"]
     },
     {
       "id": 3,
       "name": "2nd floor aisle",
       "brief_description": "You are in the second floor hallway of your residence.",
       "long_description": "You step into the second floor aisle. The carpet hides your footsteps, and dorm doors line the corridor in both directions. The elevator is to the west. Your dorm room is just across, you can enter your dorm room.",
+      "availability": "True",
       "available_commands": {
         "go west": 4,
         "enter dorm": 2
-      }
+      },
+      "items": []
     },
     {
       "id": 4,
       "name": "Morison Hall entrance and front desk",
       "brief_description": "You are at the entrance of Morison Hall near the front desk.",
       "long_description": "You stand near the doors of Morison Hall. There stands a front desk staff, looking right into your soul, maybe they want to talk? The bulletin board behind them has event posters. You can exit the building to reach St. George Street. The elevator back up to the residence floors is at the east.",
+      "availability": "True",
       "available_commands": {
         "exit building": 5,
         "go east": 3,
         "talk Front desk staff": 4
-      }
+      },
+      "items": []
     },
     {
       "id": 5,
       "name": "St. George Street Middle",
       "brief_description": "You are right in the middle of St. George Street, between some campus buildings.",
       "long_description": "You are at the middle of St. George Street. The cold wind blows between the buildings. You can feel the semi-solid snow sludge under your feet. Students walk past you. To the south, the street continues to the engineering and CS buildings, Myhal and Bahen. To the north, the street continues towards Robarts.",
+      "availability": "True",
       "available_commands": {
         "go south": 10,
         "go north": 7
-      }
+      },
+      "items": []
     },
     {
       "id": 6,
       "name": "St. George Street South",
       "brief_description": "You are at the southern part of St. George Street, near Bahen and Myhal.",
       "long_description": "You are at the southern part of St. George Street. The Bahen Centre is nearby, it's as if it is waiting for you to enter. Across Bahen, there is the Myhal Centre entrance where you can enter Myhal. Students hurry in and out of both buildings. To the north, the street continues towards your dorm.",
+      "availability": "True",
       "available_commands": {
         "go North": 10,
-        "enter Bahen Centre": 1,
-        "enter Myhal Centre": 8
-      }
+        "enter bahen centre": 1,
+        "enter myhal centre": 8
+      },
+      "items": []
       },
     {
       "id": 7,
       "name": "St. George Street North",
       "brief_description": "You are at the northern part of St. George Street, near Robarts Library.",
       "long_description": "You are at the northern part of St. George Street. The cold wind pierces your skin as you notice a random man who looks very eager to talk, whose nametag reads Arnab Kumar. Robarts Library stands behind you. You can maybe try entering with your T-card.",
+      "availability": "True",
       "available_commands": {
-        "enter Robarts Library": 0,
+        "enter robarts library": 0,
         "go south": 5,
-        "talk Arnab Kumar": 7
-      }
+        "talk arnab kumar": 7
+      },
+      "items": []
     },
     {
       "id": 8,
       "name": "Myhal Centre",
       "brief_description": "You are inside the Myhal Centre. Everyone looks busy.",
       "long_description": "You enter Myhal Centre. The interior is modern, with open spaces and glass walls that looks towards the street. Screens and posters have all kinds of announcements and events. The building feels innovative, busy and alive. The exit leads back outside.",
+      "availability": "True",
       "available_commands": {
         "exit": 6
-      }
+      },
+      "items": []
     },
     {
       "id": 9,
       "name": "Bahen Centre 2nd floor",
       "brief_description": "You are on the second floor of the Bahen Centre.",
       "long_description": "You arrive at the second floor of the Bahen Centre. The corridor continues in multiple directions, lined with lab rooms and lecture rooms. The blackboards are covered with equations and a random anime character you have no idea about. You noticed that your favourite professor whom you have been intenting to talk to for a very long time, Paul He is standing on the side. To the west, there is classroom 2210 and to the south, there is classroom 2220. The elevators are to the east, leading to the first floor.",
+      "availability": "True",
       "available_commands": {
         "go east": 1,
         "go west": 11,
         "go south": 12,
-        "talk Paul He": 9
-      }
+        "talk paul he": 9
+      },
+      "items": []
     },
     {
       "id": 10,
       "name": "St. George Street Middle South",
       "brief_description": "You are slightly south of your dorm, at St. George Street.",
       "long_description": "You are at a quieter part of St. George Street. The flow of students is less here. The Myhal Centre and Bahen are just on the horizon, towards the south. Your dorm is towards the north. You see a familiar face nearby, Boris Khesin, who has haunted you with MAT137 tests. Maybe you can talk to him.",
+      "availability": "True",
       "available_commands": {
         "go north": 5,
         "go south": 6,
-        "talk Boris Khesin": 10
-      }
+        "talk boris khesin": 10
+      },
+      "items": []
     },
     {
       "id": 11,
       "name": "Bahen Centre 2nd floor Room 2210",
       "brief_description": "You are in Classroom 2210 at the second floor of Bahen.",
       "long_description": "You are in Classroom 2210 at the second floor of Bahen. Rows of seats face a large screen in the room. The hallway is to the east.",
+      "availability": "False",
       "available_commands": {
         "go east": 9
-      }
+      },
+      "items": []
     },
     {
       "id": 12,
       "name": "Bahen Centre 2nd floor Room 2220",
       "brief_description": "You are in Classroom 2220 at the second floor of Bahen.",
       "long_description": "You are in Classroom 2220 at the second floor of Bahen. Rows of seats face a large screen in the room. The hallway is to the north.",
+      "availability": "False",
       "available_commands": {
         "go north": 9
-      }
+      },
+      "items": []
     }
-
   ],
   "items": [
   {
@@ -173,32 +196,37 @@
   ],
   "npcs": [
   {
+    "speech": {
+      "1": "Hey! I haven't seen you for a long while in my lecture! Did you skip all of my lectures?"
+    },
+    "options":
+    {
+      "0": {
+        "0": "Oh no, time to run!",
+        "1": "Tell the truth -- You have skipped all of his lectures recently because of the CS assignment and life has just been too tough for you.",
+        "2": "Tell a lie -- Argue that you have just been sitting in the back of the lecture hall. ",
+        "3": "Tell a better lie -- Argue that you have skipped some, BUT most of the time you have showed up to lecture, but chose to sit at the back of the lecture hall. "
+      }
+    },
+    "results": {
+      "0": {
+        "response": {
+          "0": "You ran away, knowing you are desperately out of time as the CS assignment is due. Boris was deeply disappointed of your behavior.",
+          "1": "You told the truth. Although some what disappointed of you, he appreciated you for telling the truth. ",
+          "2": "You told the lie, it really wasn't hard at all for Boris to see that. Not only he is disappointed of you skipping lectures, but also disappointed of you telling such a silly lie.",
+          "3": "You told a good lie, but not good enough to fully deceive Boris. He remains somewhat suspicious of your lie... "
+        },
+        "earned_score": {
+          "0": -10,
+          "1": 0,
+          "2": -10,
+          "3": 0
+        }
+      }
+    },
     "name": "Boris Khesin",
-    "conversations": [""],
-    "location": 10,
-    "plus_points": 5,
-    "minus_points": -5
-  },
-  {
-    "name": "Paul He",
-    "conversations": [""],
-    "location": 9,
-    "plus_points": 5,
-    "minus_points": -5
-  },
-  {
-    "name": "Arnab Kumar",
-    "conversations": [""],
-    "location": 7,
-    "plus_points": 5,
-    "minus_points": 0
-  },
-  {
-    "name": "Front desk staff",
-    "conversations": [""],
-    "location": 4,
-    "plus_points": 5,
-    "minus_points": -5
+    "location": 10
   }
   ]
 }
+
