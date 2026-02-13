@@ -9,7 +9,7 @@
       "available_commands": {
         "exit building": 6
       },
-      "items": ["toonie"]
+      "items": []
     },
     {
       "id": 0,
@@ -158,41 +158,41 @@
     }
   ],
   "items": [
-  {
-    "name": "usb drive",
-    "description": "A small USB drive containing the only copy of your game.",
-    "start_position": 2,
-    "target_position": 2,
-    "target_points": 20
-  },
-  {
-    "name": "laptop charger",
-    "description": "Your laptop charger, desperately needed with your battery hovering at 5%.",
-    "start_position": 4,
-    "target_position": 2,
-    "target_points": 15
-  },
-  {
-    "name": "lucky U of T mug",
-    "description": "Your beloved University of Toronto mug. It’s absolutely irreplaceable.",
-    "start_position": 3,
-    "target_position": 2,
-    "target_points": 10
-  },
-  {
-    "name": "dorm key",
-    "description": "Your dorm's key, make sure you dont lose or forget it!",
-    "start_position": 2,
-    "target_position": 2,
-    "target_points": 0
-  },
-  {
-    "name": "t-card",
-    "description": "Student card, it helps you access buildings like Bahen and Robarts.",
-    "start_position": 7,
-    "target_position": 1,
-    "target_points": 5
-  }
+    {
+      "name": "usb drive",
+      "description": "You notice a small USB drive left behind on a nearby table.",
+      "start_position": 0,
+      "target_position": 2,
+      "target_points": 20
+    },
+    {
+      "name": "laptop charger",
+      "description": "You notice a laptop charger lying on a nearby table.",
+      "start_position": 8,
+      "target_position": 2,
+      "target_points": 10
+    },
+    {
+      "name": "lucky U of T mug",
+      "description": "You notice a chipped U of T mug sitting on a desk.",
+      "start_position": 12,
+      "target_position": 2,
+      "target_points": 15
+    },
+    {
+      "name": "dorm key",
+      "description": "You notice your dorm key resting where you left it.",
+      "start_position": 2,
+      "target_position": 2,
+      "target_points": 0
+    },
+    {
+      "name": "t-card",
+      "description": "You notice your T-card lying nearby.",
+      "start_position": 7,
+      "target_position": 2,
+      "target_points": 5
+    }
   ],
   "npcs": [
   {
