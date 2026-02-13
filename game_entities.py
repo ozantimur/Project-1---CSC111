@@ -26,17 +26,25 @@ class Location:
     """A location in our text adventure game world.
 
     Instance Attributes:
-        - # TODO Describe each instance attribute here
+        - name: The name of this location.
+        - id_num: A unique integer identifier value for this location.
+        - brief_description: A brief description shown when the player revisits the location.
+        - long_description: A detailed and description shown the first time the player enters the location.
+        - available_commands: A dictionary that maps command strings to the id_num of the destination location.
+        - items: A list of item names present at this location.
+        - visited: Whether the player has visited this location before.
+        - availability: Whether this location is currently accessible to the player.
 
     Representation Invariants:
-        - # TODO Describe any necessary representation invariants
+        - name != ""
+        - id_num >= 0
+        - brief_description != ""
+        - long_description != ""
+        - all(cmd != "" for cmd in available_commands)
+        - all(isinstance(dest, int) and dest >= 0 for dest in available_commands.values())
+        - all(isinstance(item, str) and item != "" for item in items)
     """
 
-    # This is just a suggested starter class for Location.
-    # You may change/add parameters and the data available for each Location object as you see fit.
-    #
-    # The only thing you must NOT change is the name of this class: Location.
-    # All locations in your game MUST be represented as an instance of this class.
     name: str
     id_num: int
     brief_description: str
@@ -52,19 +60,18 @@ class Item:
     """An item in our text adventure game world.
 
     Instance Attributes:
-        - # TODO Describe each instance attribute here
+        - name: The name of this item.
+        - start_position: The id number of the location where this item spawns in.
+        - target_position: The id number of the location where this item is used.
+        - target_points: The amount of points awarded when the item is brought to its target_position.
+        - available: Whether this item is currently available in the game.
 
     Representation Invariants:
-        - # TODO Describe any necessary representation invariants
+        - name != ""
+        - start_position >= 0
+        - target_position >= 0
+        - target_points >= 0
     """
-
-    # NOTES:
-    # This is just a suggested starter class for Item.
-    # You may change these parameters and the data available for each Item object as you see fit.
-    # (The current parameters correspond to the example in the handout).
-    #
-    # The only thing you must NOT change is the name of this class: Item.
-    # All item objects in your game MUST be represented as an instance of this class.
 
     name: str
     start_position: int
@@ -73,20 +80,29 @@ class Item:
     available: bool
 
 
-# Note: Other entities you may want to add, depending on your game plan:
-# - Puzzle class to represent special locations (could inherit from Location class if it seems suitable)
-# - Player class
-# etc.
-
 class NPC:
     """A NPC in our text adventure game world.
 
-        Instance Attributes:
-            - self.options contains a mapping from the option number to the corresponding description
+    Instance Attributes:
+        - name: The name of this NPC.
+        - location: The id number of the location where this NPC is found.
+        - speech: A list of dialogue strings spoken by the NPC in order.
+        - options: A list of dictionaries mapping option numbers (as strings)
+          to the corresponding option description shown to the player.
+        - results: A list of dictionaries mapping option numbers (as strings)
+          to a tuple of (response string, points earned).
+        - interacted: Whether the player has already completed dialogue with this NPC.
 
-        Representation Invariants:
-            - # TODO Describe any necessary representation invariants
-        """
+    Representation Invariants:
+        # TODO
+        - name != ""
+        - location >= 0
+        - len(speech) == len(options) == len(results)
+        - all(isinstance(line, str) and line != "" for line in speech)
+        - all(isinstance(opt, dict) for opt in options)
+        - all(isinstance(res, dict) for res in results)
+        - for every index i, options[i].keys() == results[i].keys()
+    """
 
     name: str
     speech: list[str]
