@@ -26,23 +26,10 @@ class Location:
     """A location in our text adventure game world.
 
     Instance Attributes:
-        - name: The name of this location.
-        - id_num: A unique integer identifier value for this location.
-        - brief_description: A brief description shown when the player revisits the location.
-        - long_description: A detailed and description shown the first time the player enters the location.
-        - available_commands: A dictionary that maps command strings to the id_num of the destination location.
-        - items: A list of item names present at this location.
-        - visited: Whether or not the player has visited this location before.
-        - availability: Whether this location is currently accessible to the player.
+        - # TODO Describe each instance attribute here
 
     Representation Invariants:
-        - name != ""
-        - id_num >= 0
-        - brief_description != ""
-        - long_description != ""
-        - all(com != "" for com in available_commands)
-        - all(isinstance(dest, int) and dest >= 0 for dest in available_commands.values())
-        - all(isinstance(item, str) and item != "" for item in items)
+        - # TODO Describe any necessary representation invariants
     """
 
     # This is just a suggested starter class for Location.
@@ -65,17 +52,10 @@ class Item:
     """An item in our text adventure game world.
 
     Instance Attributes:
-        - name: The name of this item.
-        - start_position: The id number of the location where this item spawns in.
-        - target_position: The id number of the location where this item is used.
-        - target_points: The amount of points awarded when the item is brought to its target_position.
-        - available: Whether or not this item is currently available in the game.
+        - # TODO Describe each instance attribute here
 
     Representation Invariants:
-        - name != ""
-        - start_position >= 0
-        - target_position >= 0
-        - target_points >= 0
+        - # TODO Describe any necessary representation invariants
     """
 
     # NOTES:
@@ -102,32 +82,76 @@ class NPC:
     """A NPC in our text adventure game world.
 
         Instance Attributes:
-            - # TODO Describe each instance attribute here
+            - self.options contains a mapping from the option number to the corresponding description
 
         Representation Invariants:
             - # TODO Describe any necessary representation invariants
         """
 
     name: str
-    conversations: list[str]
+    speech: list[str]
+    options: list[dict[str, str]]
+    results: list[dict[str, float]]
     location: int
-    plus_points: float
-    minus_points: float
 
     def __init__(
-        self,
-        name: str,
-        conversations: list[str],
-        location: int,
-        plus_points: float,
-        minus_points: float
-    ) -> None:
+            self,
+            name: str,
+            location: int,
+            speech: list[str],
+            options: list[dict[str, str]],
+            results: list[dict[str, float]]) -> None:
+
         """Initialize a new NPC."""
         self.name = name
-        self.conversations = conversations
         self.location = location
-        self.plus_points = plus_points
-        self.minus_points = minus_points
+        self.speech = speech
+        self.options = options
+        self.results = results
+
+    def dialogue(self) -> tuple[float, bool]:
+        """
+        Handle the process of dialogue with NPC
+        """
+        # tracks the total score the player has earned through interacting with the NPC
+        total_earned_score = 0
+        player_input = "this is a place holder"
+        index = 0
+        # The "0" option is the "End conversation option"
+        while player_input != "quit" or player_input != "0":
+            print(self.speech[index])  # What the NPC say
+            self.print_options()
+            player_input = input("Select your option: ").strip()
+            chosen_option = self.options[index].get(player_input)
+
+            # Validate choice
+            while not chosen_option:
+                print("That was an invalid option: try again.\n")
+                self.print_options()
+                player_input = input("Select your option: ").strip()
+                chosen_option = self.options[index].get(player_input)
+
+            response, earned_score = self.results[index][player_input]
+            print(response)
+            total_earned_score += earned_score
+            if player_input == "0":
+                break
+            index += 1
+        print("\nDialogue is over.\n")
+        if player_input == "quit":
+            return 0.0, False
+        elif player_input == "0":
+            return 0.0, True
+        return 0.0, True
+
+    def print_options(self) -> None:
+        """
+        Handles printing the available options for the player to see
+        """
+        print("Available options below: ")
+        for option in self.options:
+            print(self.options[option])
+        print()
 
 
 if __name__ == "__main__":
