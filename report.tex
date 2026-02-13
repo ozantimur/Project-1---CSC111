@@ -6,68 +6,296 @@
 \usepackage[margin=0.75in]{geometry}
 
 \title{CSC111 Winter 2026 Project 1}
-\author{TODO: FILL IN YOUR NAME(S) HERE}
+\author{Tugra Canbaz, Jack(Shusen) Huang, Ozan Timur}
 \date{\today}
 
 \begin{document}
 \maketitle
 
 \section*{Running the game}
-We should be able to run your game by simply running \texttt{adventure.py}. If you have any other requirements (e.g., installing certain modules), describe them here. Otherwise, skip this section.
+Run adventure.py
+The necessary imports are:
+\begin{itemize}
+    \item from \_future\_ import annotations
+    \item import json
+    \item from typing import Optional
+    \item from game\_entities import Location, Item, NPC
+    \item from event\_logger import Event, Evenlist
+    \item from leaderboard import Leaderboard
+    \item from player import Player
+\end{itemize}
 
 \section*{Game Map}
-Example game map below (edit it to show your actual game map):
-
 \begin{verbatim}
-  1  2  3
- -1  4 -1
- -1  5 -1
+-1 -1  0  7 -1 -1 -1
+-1 -1 -1  5  4  3  2
+-1 -1 -1 10 -1 -1 -1
+11  9  1  6  8 -1 -1
+-1 12 -1 -1 -1 -1 -1
 \end{verbatim}
 
-Starting location is: 1
+Starting location is: 2
 
 \section*{Game solution}
 List of commands:
+\begin{verbatim}
+pick up dorm key
+exit dorm
+go west
+exit building
+go north
+talk arnab kumar
+0
+enter robarts library
+pick up usb drive
+exit building
+go south
+go south
+talk boris khesin
+3
+3
+score
+go south
+enter bahen centre
+go west
+talk paul he
+1
+1
+score
+go south
+pick up lucky uoft mug
+go north
+go east
+exit building
+enter myhal centre
+pick up laptop charger
+exit building
+go north
+go north
+enter morrison hall
+go east
+enter dorm
+drop usb drive
+score
+drop laptop charger
+score
+drop lucky uoft mug
+score
+submit assignment
+fake_username
+\end{verbatim}
+
 
 \section*{Lose condition(s)}
-Description of how to lose the game:
-
+Description of how to lose the game: \\
+1. Run out of moves (deadline of 40 moves)
 List of commands:
+\begin{verbatim}
+pick up dorm key
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+enter dorm
+exit dorm
+\end{verbatim}
 
-Which parts of your code are involved in this functionality:
+Which parts of your code are involved in this functionality:\\
+Line 88 at adventure.py\\
+line 408- line 444 at adventure.py
+
 
 % Copy-paste the above if you have multiple lose conditions and describe each possible way to lose the game
+
+2. Submit assignment with points $\leq$ 3: \\
+
+\begin{verbatim}
+pick up dorm key
+exit dorm
+go west
+exit building
+go north
+talk arnab kumar
+0
+enter robarts library
+pick up usb drive
+exit building
+go south
+go south
+go south
+enter bahen centre
+go west
+go south
+pick up lucky uoft mug
+go north
+go east
+exit building
+enter myhal centre
+pick up laptop charger
+exit building
+go north
+go north
+enter morrison hall
+go east
+enter dorm
+drop usb drive
+drop laptop charger
+drop lucky uoft mug
+submit assignment
+\end{verbatim}
+
+Which parts of your code are involved in this functionality: \\
+line 408- line 444 at adventure.py
+
+3. Lock yourself out of the dorm (leave without dorm key):
+If the player exits the dorm without carrying the dorm key and leaves it behind, they will not be able to re-enter later and thus will lose the game by running out of moves.
+
+Example:
+\begin{verbatim}
+exit dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+enter dorm
+\end{verbatim}
+
+Which parts of your code are involved in this functionality: \\
+line 408- line 444 at adventure.py
 
 \section*{Inventory}
 
 \begin{enumerate}
 \item All location IDs that involve items in the game:
+\begin{itemize}
+    \item Location ID 0: usb drive
+    \item Location ID 2: dorm key
+    \item Location ID 7: t-card
+    \item Location ID 8: laptop charger
+    \item Location ID 12: lucky uoft mug
+\end{itemize}
 
 \item Item data:
 \begin{enumerate}
     \item For Item 1:
     \begin{itemize}
-    \item Item name:
-    \item Item start location ID:
-    \item Item target location ID:
+    \item Item name: usb drive
+    \item Item start location ID: 0
+    \item Item target location ID: 2
     \end{itemize}
+
         \item For Item 2:
     \begin{itemize}
-    \item Item name:
-    \item Item start location ID:
-    \item Item target location ID:
+    \item Item name: laptop charger
+    \item Item start location ID: 8
+    \item Item target location ID: 2
     \end{itemize}
+
         \item For Item 3:
     \begin{itemize}
-    \item Item name:
-    \item Item start location ID:
-    \item Item target location ID:
+    \item Item name: lucky U of T mug
+    \item Item start location ID: 12
+    \item Item target location ID: 2
     \end{itemize}
-    % Copy-paste the above if you have more items, to list ALL items
+
+        \item For Item 4:
+    \begin{itemize}
+    \item Item name: dorm key
+    \item Item start location ID: 2
+    \item Item target location ID: 2
+    \end{itemize}
+
+        \item For Item 5:
+    \begin{itemize}
+    \item Item name: t-card
+    \item Item start location ID: 7
+    \item Item target location ID: 2
+    \end{itemize}
 \end{enumerate}
 
     \item Exact command(s) that should be used to pick up an item (choose any one or more items for this example), and the command(s) used to use/drop the item (can copy the list you assigned to \texttt{inventory\_demo} in the \texttt{simulation.py} file)
-    \item Which parts of your code (file, class, function/method) are involved in handling the \texttt{inventory} command:
+    \begin{itemize}
+    \item Pick up commands: \texttt{pick up usb drive}, \texttt{pick up laptop charger}, \texttt{pick up lucky uoft mug}, \texttt{pick up dorm key}, \texttt{pick up t-card}
+    \item Drop commands: \texttt{drop usb drive}, \texttt{drop laptop charger}, \texttt{drop lucky uoft mug}
+\end{itemize}
+
+    
+    \item Which parts of your code (file, class, function/method) are involved in handling the \texttt{inventory} command:\\
+
+    \begin{itemize}
+    \item File: \texttt{adventure.py: line 146 - line 156}
+    \item Class: \texttt{AdventureGame}
+    \item Methods: \texttt{pick\_up()}, \texttt{drop()}, \texttt{inventory()}
+    \item Other class: \texttt{Item} (in \texttt{game\_entities.py})
+    \end{itemize}
+
 \end{enumerate}
 
 \section*{Score}
@@ -75,34 +303,74 @@ Which parts of your code are involved in this functionality:
 
     \item Briefly describe the way players can earn score in your game. Include the first location in which they can increase their score, and the exact list of command(s) leading up to the score increase:
 
+    Players earn score in two ways:
+    \begin{itemize}
+    \item Talking to NPCs and selecting correct dialogue options.
+    \item Dropping required items in the dorm (returning them successfully).
+    \end{itemize}
+
+    The NPC locations(that give points):
+    \begin{itemize}
+    \item St. George Street Middle South (talk to Boris Khesin)
+    \item Bahen Centre 2nd floor (talk to Paul He)
+    \end{itemize}
+
 
     \item Copy the list you assigned to \texttt{scores\_demo} in the \texttt{simulation.py} file into this section of the report:
 
 
     \item Which parts of your code (file, class, function/method) are involved in handling the \texttt{score} functionality:
+
+    \begin{itemize}
+    \item File: \texttt{adventure.py}
+    \item Class: \texttt{AdventureGame}
+    \item Attribute: \texttt{\_points}
+    \item Methods: dialogue methods in \texttt{NPC} class
+    \end{itemize}
+
 \end{enumerate}
 
 \section*{Enhancements}
 \begin{enumerate}
-    \item Describe your enhancement \#1 here
+
+    \item Enhancement \#1: NPC Dialogue Options that affect points
+\begin{itemize}
+    \item Description: The player must interact with professor NPCs (Arnab Kumar, Boris Khesin, Paul He.) Correct dialogue choices give points, incorrect choices remove points. The player must earn enough points or simply not lose points to successfully submit the assignment.
+    \item Complexity level: High
+    \item Reasoning: The implementation of the NPC type was quite hard. Dialogue tree has limited branching yet it was hard to write a lot of sections and branches of dialogue by hand, and it can be solved through repeated attempts. Implementing structured dialogue and tracking the state of the user when in a dialogue required us to revise a lot of code that we had written. Another major challenge after the implementation was in fact PythonTA, which limits the maximum number of attributes used for each class object. Not only the NPC class has these limits, but also the main game file adventure.py.
+    \item Code involved:
     \begin{itemize}
-        \item Brief description of what the enhancement is (if it's a puzzle, also describe what steps the player must take to solve it):
-        \item Complexity level (choose from low/medium/high):
-        \item Reasons you believe this is the complexity level (e.g., mention implementation details, how much code did you have to add/change from the baseline, what challenges did you face, etc.)
-        \item Name the parts of the code which are involved in this enhancement
-        \item Copy the list you assigned to \texttt{enhancements\_demo} in the \texttt{simulation.py} file into this section of the report:
+        \item \texttt{game\_entities.py} (NPC class and dialogue method)
+        \item \texttt{adventure.py} (dialogue and score updating)
+        \item \texttt{game\_data.json} (NPC data)
     \end{itemize}
+\end{itemize}
 
-    % Uncomment below section if you have more enhancements; copy-paste as needed
-    %\item Describe your enhancement here
-    %\begin{itemize}
-    %    \item Basic description of what the enhancement is:
-    %    \item Complexity level (low/medium/high):
-    %    \item Reasons you believe this is the complexity level (e.g., mention implementation details)
-    %    \item Name the parts of the code which are involved in this enhancement
-    %    \item Copy the list you assigned to \texttt{enhancements\_demo} in the \texttt{simulation.py} file into this section of the report:
-    %\end{itemize}
+\item Enhancement \#2: Leaderboard System
+\begin{itemize}
+    \item Description: A leaderboard that stores usernames and scores after successful completions of game runs
+    \item Complexity level: Medium
+    \item Reasoning: This required another two files, leaderboard.json to which stores the data locally and leaderboard.py to provide everything needed for the leaderboard function. To implement the leaderboard.py file we needed to implement different helper functions where we loaded the datas from the leaderboard.json file and also the leaderboard is updated whenever the player achieves a score that places them in the top five. Required file handling, which we had to learn to implement, maintaining the order and updating it after each run. We had to learn a couple new skills.
+    \item Code involved:
+    \begin{itemize}
+        \item \texttt{leaderboard.py}
+        \item \texttt{leaderboard.json}
+        \item Integrating the point count in \texttt{adventure.py}
+    \end{itemize}
+\end{itemize}
+\item Enhancement \#3: Locked Location Access, Key + T-Card Mechanics
+\begin{itemize}
+    \item Description: Certain locations require special items to enter or unlock. Dorm access requires a key, while academic buildings require a t-card. If the player lacks the required item, access is denied.
+    \item Complexity level: Easy
+    \item Reasoning: Required implementing logic inside move(), creating helper methods (\_unlock() and \_swipe(),) checking player inventory, and item-based access control with location availability parameter.
+    \item Code involved:
+    \begin{itemize}
+        \item \texttt{adventure.py} (\texttt{move()}, \texttt{\_unlock()}, \texttt{\_swipe()})
+        \item \texttt{player.py} (inventory tracking)
+        \item \texttt{game\_data.json} (location availability field)
+    \end{itemize}
+\end{itemize}
+    
+
 \end{enumerate}
-
-
 \end{document}
