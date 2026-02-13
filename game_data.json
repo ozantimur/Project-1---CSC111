@@ -62,11 +62,12 @@
       "id": 5,
       "name": "St. George Street Middle",
       "brief_description": "You are right in the middle of St. George Street, between some campus buildings.",
-      "long_description": "You are at the middle of St. George Street. The cold wind blows between the buildings. You can feel the semi-solid snow sludge under your feet. Students walk past you. To the south, the street continues to the engineering and CS buildings, Myhal and Bahen. To the north, the street continues towards Robarts.",
+      "long_description": "You are at the middle of St. George Street, next to your dorm building. The cold wind blows between the buildings. You can feel the semi-solid snow sludge under your feet. Students walk past you. To the south, the street continues to the engineering and CS buildings, Myhal and Bahen. To the north, the street continues towards Robarts.",
       "availability": "True",
       "available_commands": {
         "go south": 10,
-        "go north": 7
+        "go north": 7,
+        "enter building": 4
       },
       "items": []
     },
