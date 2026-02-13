@@ -181,7 +181,7 @@ class AdventureGame:
         if desired_command in current_location.available_commands:
             # current_location.availability marks whether the player needs an item to enter the location
             desired_destination = self._locations[current_location.available_commands[desired_command]]
-            if desired_destination.availability:
+            if desired_destination.availability and desired_destination.id_num != 2:
                 self.current_location_id = current_location.available_commands[desired_command]
                 return
             else:
@@ -203,8 +203,10 @@ class AdventureGame:
                 key = my_item
         if key:
             print(f"You have unlocked the door using your {key.name}. ", sep="", end="")
+            self.current_location_id = 2
         else:
-            print("Oh no! You have forgot to take your room key! Head down to front desk to ask for a temporary key. ")
+            print("Oh no! You have forgot to take your room key!")
+            self.ongoing = False
 
     def _swipe(self, destination: Location) -> None:
         """
@@ -396,7 +398,7 @@ if __name__ == "__main__":
         if game.remaining_moves == 0:
             print("Game over — you ran out of moves.")
         else:
-            print("Game over - you gave up")
+            print("Game over")
 
         leaderboard = Leaderboard()
         leaderboard.print()
