@@ -19,9 +19,7 @@ This file is Copyright (c) 2026 CSC111 Teaching Team
 """
 from __future__ import annotations
 import json
-from os import remove
 from typing import Optional
-
 
 from game_entities import Location, Item, NPC
 from event_logger import Event, EventList
@@ -38,10 +36,7 @@ class AdventureGame:
 
     Instance Attributes:
         - current_location_id: The id of the player's current Location.
-        - ongoing: Whether the game is currently active.
-        - _locations: A mapping from location id numbers to Location objects.
-        - _items: A list of all item objects in the game.
-        - _npcs: A list of all NPC objects in the game.
+        - npcs: A list of all NPC objects in the game.
         - _current_items: A list of items currently in the player's inventory.
         - _visited_locations: A list of locations the player has visited.
         - _points: The player's current point score.
@@ -92,11 +87,12 @@ class AdventureGame:
 
         # Suggested attributes (you can remove and track these differently if you wish to do so):
         self.current_location_id = initial_location_id  # game begins at this location
-        self.ongoing = True  # whether the game is ongoing
         self.points = 0
         self.remaining_moves = 100
         self.visited_locations = []
         self._current_items = []
+
+        self.ongoing = True  # whether the game is ongoing
         self.auto_print = False
         self.won = False
 
@@ -111,23 +107,17 @@ class AdventureGame:
 
         # this is a dictionary
         locations = {}
-        items = []
+        items2 = []
         npcs = []
 
         for loc_data in data['locations']:  # Go through each element associated with the 'locations' key in the file
-            location_obj = Location(loc_data['name'], loc_data['id'], loc_data['brief_description'],
-                                    loc_data['long_description'],
-                                    loc_data['available_commands'], loc_data['items'],
-                                    False, (loc_data['availability'] == "True"))
-            locations[loc_data['id']] = location_obj
+            locations[loc_data['id']] = Location(loc_data['name'], loc_data['id'], loc_data['brief_description'],
+                                                 loc_data['long_description'], loc_data['available_commands'],
+                                                 loc_data['items'], False, (loc_data['availability'] == "True"))
 
         for item_data in data["items"]:
-            item_obj = Item(item_data['name'], item_data['start_position'], item_data['target_position'],
-                            item_data['target_points'], True)
-            items.append(item_obj)
-
-        #     npc_obj = NPC(npc_data['name'], npc_data[''], npc_data['location'])
-        #     npcs.append(npc_obj)
+            items2.append(Item(item_data['name'], item_data['start_position'], item_data['target_position'],
+                               item_data['target_points'], True))
 
         for npc in data["npcs"]:
             speech = list(npc["speech"].values())
@@ -136,18 +126,16 @@ class AdventureGame:
             results = []
 
             for result_block in npc["results"].values():
-                responses = result_block["response"]
-                scores = result_block["earned_score"]
 
-                responses_scores = {response: (responses[response], float(scores[response]))for response in responses}
+                responses_scores = {response: (result_block["response"][response],
+                                               float(result_block["earned_score"][response]))
+                                    for response in result_block["response"]}
+
                 results.append(responses_scores)
 
-            name = npc["name"]
-            npc_location = npc["location"]
+            npcs.append(NPC(npc["name"], npc["location"], speech, options, results))
 
-            npcs.append(NPC(name, npc_location, speech, options, results))
-
-        return locations, items, npcs
+        return locations, items2, npcs
 
     def get_location(self, loc_id: Optional[int] = None) -> Location:
         """Return Location object associated with the provided location ID.
@@ -163,10 +151,10 @@ class AdventureGame:
     def inventory(self) -> str:
         """Return the current inventory of the player while the game is played.
         """
-        items = [item.name for item in self._current_items]
+        items3 = [item5.name for item5 in self._current_items]
         items_string = ""
-        for item in items:
-            items_string += item + ", "
+        for item1 in items3:
+            items_string += item1 + ", "
         if items_string != "":
             items_string = items_string[:-2]
 
@@ -181,13 +169,14 @@ class AdventureGame:
         if desired_command in current_location.available_commands:
             # current_location.availability marks whether the player needs an item to enter the location
             desired_destination = self._locations[current_location.available_commands[desired_command]]
-            if desired_destination.availability and desired_destination.id_num != 2:
+            if desired_destination.availability:
                 self.current_location_id = current_location.available_commands[desired_command]
                 return
             else:
                 # Note that id 2 is the id for the dorm room
                 if current_location.available_commands[desired_command] == 2:
                     self._unlock()
+                    self.current_location_id = current_location.available_commands[desired_command]
                 else:
                     self._swipe(self._locations[current_location.available_commands[desired_command]])
         return
@@ -203,7 +192,7 @@ class AdventureGame:
                 key = my_item
         if key:
             print(f"You have unlocked the door using your {key.name}. ", sep="", end="")
-            self.current_location_id = 2
+
         else:
             print("Oh no! You have forgot to take your room key!")
             self.ongoing = False
@@ -213,7 +202,7 @@ class AdventureGame:
         Handle the process of scanning t-card
         """
         # Checks whether the player has the t-card on themselves
-        if any([item.name == 't-card' for item in self._current_items]):
+        if any([item1.name == 't-card' for item1 in self._current_items]):
             print(f"You have swiped your t-card to enter {destination.name}. ", sep="", end="")
             return
         else:
@@ -233,19 +222,12 @@ class AdventureGame:
         """
         if desired_item == '':
             return False
-        else:
-            if desired_item in self._locations[self.current_location_id].items:
-                for i in range(len(self._items)):
-                    # finding the correct item using its name
-                    if self._items[i].name == desired_item:
-                        self._current_items.append(self._items[i])
-                        self._items[i].available = False
-                        # check if the player has picked up items that are already dropped at the target position,
-                        # if so, then the appropriate points will be deducted as the player must have received the
-                        # same amount of points by dropping the item at the target position
-                        if self._items[i].target_position == self.current_location_id:
-                            self.points -= self._items[i].target_points
-                        return True
+        if desired_item in self._locations[self.current_location_id].items:
+            for i in range(len(self._items)):
+                # finding the correct item using its name
+                if self._items[i].name == desired_item:
+                    self._current_items.append(self._items[i])
+                    self._items[i].available = False
         return False
 
     def score(self) -> float:
@@ -267,9 +249,9 @@ class AdventureGame:
 
     def check_win(self) -> bool:
         """Return True if the player has won."""
-        in_dorm = (self.current_location_id == 2)
-        has_all_items = (len(self._current_items) == len(self._items))
-        has_positive_points = (self.points > 0)
+        in_dorm = self.current_location_id == 2
+        has_all_items = len(self._current_items) == len(self._items)
+        has_positive_points = self.points > 0
         return in_dorm and has_all_items and has_positive_points
 
 
@@ -277,11 +259,12 @@ if __name__ == "__main__":
     # When you are ready to check your work with python_ta, uncomment the following lines.
     # (Delete the "#" and space before each line.)
     # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
-    # import python_ta
-    # python_ta.check_all(config={
-    #     'max-line-length': 120,
-    #     'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
-    # })
+    import python_ta
+
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
+    })
 
     game_log = EventList()  # This is REQUIRED as one of the baseline requirements
     game = AdventureGame('game_data.json', 2)  # load data, setting initial location ID to 1
@@ -313,16 +296,18 @@ if __name__ == "__main__":
             print("-", action)
         my_items = game.get_items()
         for item in my_items:
-            if item.available and item.start_position == game.current_location_id:
+            if item.available and item.start_position == game.current_location_id and item.name != 't card':
                 print("- pick up", item.name)
 
         # Validate choice
         choice = input("\nEnter action: ").lower().strip()
-        while (choice not in location.available_commands and choice not in menu and
-               choice != "pick up "+location.items[0]):
-
-            print("That was an invalid option; try again.")
-            choice = input("\nEnter action: ").lower().strip()
+        while choice not in location.available_commands and choice not in menu and not choice.startswith("pick up"):
+            if choice.startswith("pick up") and len(location.items) == 0:
+                print("That was an invalid option; try again.")
+                choice = input("\nEnter action: ").lower().strip()
+            else:
+                print("That was an invalid option; try again.")
+                choice = input("\nEnter action: ").lower().strip()
 
         print("========")
         print("You decided to:", choice)
@@ -346,7 +331,6 @@ if __name__ == "__main__":
 
             game.remaining_moves -= 1
 
-            # TODO: Add in code to deal with actions which do not change the location (e.g. taking or using an item)
             if choice.startswith("go") or choice == "exit" or choice.startswith("enter"):
                 game.move(choice)
             elif choice.startswith('talk'):
@@ -355,9 +339,12 @@ if __name__ == "__main__":
                         earned_points, game.ongoing = curr_npc.dialogue()
                         game.points += earned_points
                         if earned_points < 0:
-                            print("You have lost "+str(-1*earned_points)+" points through this interaction.")
+                            print("You have lost " + str(-1 * earned_points) + " points through this interaction.")
                         else:
-                            print("You have gained "+str(earned_points)+" points through this interaction.")
+                            print("You have gained " + str(earned_points) + " points through this interaction.")
+                        if curr_npc.name == "Arnab Kumar":
+                            game.pick_up('t card')
+
             elif choice.startswith('pick up'):
                 items = game.get_items()
                 for item in items:
@@ -367,13 +354,6 @@ if __name__ == "__main__":
             else:
                 result = location.available_commands[choice]
                 game.current_location_id = result
-            """
-            # TODO: Make sure to include the case to subtract points for some NPC interactions. It has to be done here,
-            by constructing the NPC method such that it returns a value of how much points the player gets 
-            Positive for earning points, negative for losing points. 
-            """
-
-            # TODO: Add in code to deal with special locations (e.g. puzzles) as needed for your game
 
         if game.remaining_moves <= 0:
             print("Out of moves!")  # The player run out of moves so the game ends automatically
