@@ -24,7 +24,6 @@ from typing import Optional
 from game_entities import Location, Item, NPC
 from event_logger import Event, EventList
 from leaderboard import Leaderboard
-from player import Player
 
 
 # Note: You may add in other import statements here as needed
@@ -59,8 +58,12 @@ class AdventureGame:
     npcs: list[NPC]
     current_location_id: int  # Suggested attribute, can be removed
     ongoing: bool  # Suggested attribute, can be removed
+    _current_items: list[Item]
+    visited_locations: list[int]
+    points: int  # the points the player has
+    remaining_moves: int
     auto_print: bool
-    player: Player
+    won: bool
 
     def __init__(self, game_data_file: str, initial_location_id: int) -> None:
         """
@@ -84,10 +87,14 @@ class AdventureGame:
 
         # Suggested attributes (you can remove and track these differently if you wish to do so):
         self.current_location_id = initial_location_id  # game begins at this location
+        self.points = 0
+        self.remaining_moves = 100
+        self.visited_locations = []
+        self._current_items = []
 
         self.ongoing = True  # whether the game is ongoing
         self.auto_print = False
-        self.player = Player([], [], 0.0, 50, False)
+        self.won = False
 
     @staticmethod
     def _load_game_data(filename: str) -> tuple[dict[int, Location], list[Item], list[NPC]]:
@@ -119,6 +126,7 @@ class AdventureGame:
             results = []
 
             for result_block in npc["results"].values():
+
                 responses_scores = {response: (result_block["response"][response],
                                                float(result_block["earned_score"][response]))
                                     for response in result_block["response"]}
@@ -143,7 +151,7 @@ class AdventureGame:
     def inventory(self) -> str:
         """Return the current inventory of the player while the game is played.
         """
-        items3 = [item5.name for item5 in self.player.get_current_items()]
+        items3 = [item5.name for item5 in self._current_items]
         items_string = ""
         for item1 in items3:
             items_string += item1 + ", "
@@ -180,7 +188,7 @@ class AdventureGame:
         """
         # Check if the player has a key or not
         key = None
-        for my_item in self.player.get_current_items():
+        for my_item in self._current_items:
             if my_item.name.endswith('key'):
                 key = my_item
         if key:
@@ -195,7 +203,7 @@ class AdventureGame:
         Handle the process of scanning t-card
         """
         # Checks whether the player has the t-card on themselves
-        if any([item1.name == 't card' for item1 in self.player.get_current_items()]):
+        if any([item1.name == 't card' for item1 in self._current_items]):
             print(f"You have swiped your t-card to enter {destination.name}. ", sep="", end="")
             return
         else:
@@ -206,9 +214,9 @@ class AdventureGame:
 
         """
         Pick up the item the player wants.
-        If the desired item is within the player's current location, mutate self.player.get_current_items() by appending the item,
+        If the desired item is within the player's current location, mutate self._current_items by appending the item,
             and return True to represent a successful interaction
-        If the desired item is NOT within the player's current location, self.player.get_current_items() remains unmutated,
+        If the desired item is NOT within the player's current location, self._current_items remains unmuated,
             and return False to represent an unsuccessful interaction
 
         Mutate the item's availability correspondingly
@@ -219,14 +227,35 @@ class AdventureGame:
             for i in range(len(self._items)):
                 # finding the correct item using its name
                 if self._items[i].name == desired_item:
-                    self.player.get_current_items().append(self._items[i])
+                    self._current_items.append(self._items[i])
                     self._items[i].available = False
+        return False
+
+    def drop(self, desired_item: str) -> bool:
+        """
+        Drop the item the player wants to.
+        If the desired item is in the player's inventory, mutate self._current_items by popping the item,
+            and return True to represent a successful interaction.
+        If the desired item is NOT in the player's inventory, self._current_items remains unmutated,
+            and return False to represent an unsuccessful interaction
+
+        Update points correspondingly
+        """
+        if desired_item == '':
+            return False
+
+        for i in range(len(self._items)):
+            if self._items[i].name == desired_item:
+                # update the availability of the item
+                self._items[i].available = True
+                self._current_items.remove(self._items[i])
+                return True
         return False
 
     def score(self) -> float:
         """Return the player's score so far
         """
-        return self.player.get_points()
+        return self.points
 
     def look(self) -> str:
         """
@@ -240,11 +269,17 @@ class AdventureGame:
         """
         return self._items
 
+    def get_current_items(self) -> list[Item]:
+        """
+        Return all items the player carries
+        """
+        return self._current_items
+
     def check_win(self) -> bool:
         """Return True if the player has won."""
         in_dorm = self.current_location_id == 2
-        has_all_items = len(self.player.get_current_items()) == len(self._items)
-        has_positive_points = self.player.get_points() > 0
+        has_all_items = len(self._current_items) == len(self._items)
+        has_positive_points = self.points > 0
         return in_dorm and has_all_items and has_positive_points
 
 
@@ -254,10 +289,10 @@ if __name__ == "__main__":
     # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
     import python_ta
 
-    python_ta.check_all(config={
-        'max-line-length': 120,
-        'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
-    })
+    # python_ta.check_all(config={
+    #     'max-line-length': 120,
+    #     'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
+    # })
 
     game_log = EventList()  # This is REQUIRED as one of the baseline requirements
     game = AdventureGame('game_data.json', 2)  # load data, setting initial location ID to 1
@@ -275,11 +310,11 @@ if __name__ == "__main__":
 
         # YOUR CODE HERE
         if not game.auto_print:
-            if location.id_num in game.player.get_visited_locations():
+            if location.id_num in game.visited_locations:
                 print(location.brief_description)
             else:
                 print(location.long_description)
-                game.player.visit_location(location.id_num)
+                game.visited_locations.append(location.id_num)
         else:
             game.auto_print = False
         # Display possible actions at this location
@@ -288,14 +323,25 @@ if __name__ == "__main__":
         for action in location.available_commands:
             print("-", action)
         my_items = game.get_items()
+        # pick up
         for item in my_items:
             if item.available and item.start_position == game.current_location_id and item.name != 't card':
                 print("- pick up", item.name)
+        # drop
+        for item in my_items:
+            if not item.available:
+                print("- drop", item.name)
 
         # Validate choice
         choice = input("\nEnter action: ").lower().strip()
-        while choice not in location.available_commands and choice not in menu and not choice.startswith("pick up"):
+        while (choice not in location.available_commands and choice not in menu
+               and not choice.startswith("pick up")) and not choice.startswith("drop"):
+
             if choice.startswith("pick up") and len(location.items) == 0:
+                print("That was an invalid option; try again.")
+                choice = input("\nEnter action: ").lower().strip()
+            elif len(choice) >= 5 and choice.startswith("drop") and not any(obj.name.endswith(choice[5::])
+                                                                            for obj in game.get_current_items()):
                 print("That was an invalid option; try again.")
                 choice = input("\nEnter action: ").lower().strip()
             else:
@@ -322,7 +368,7 @@ if __name__ == "__main__":
         else:
             # Handle non-menu actions
 
-            game.player.decrement_remaining_moves()
+            game.remaining_moves -= 1
 
             if choice.startswith("go") or choice == "exit" or choice.startswith("enter"):
                 game.move(choice)
@@ -330,7 +376,7 @@ if __name__ == "__main__":
                 for curr_npc in game.npcs:
                     if curr_npc.location == game.current_location_id:
                         earned_points, game.ongoing = curr_npc.dialogue()
-                        game.player.add_points(earned_points)
+                        game.points += earned_points
                         if earned_points < 0:
                             print("You have lost " + str(-1 * earned_points) + " points through this interaction.")
                         else:
@@ -344,22 +390,28 @@ if __name__ == "__main__":
                     if item.start_position == game.current_location_id:
                         game.pick_up(item.name)
 
+            elif choice.startswith("drop"):
+                game.drop(choice[5::])
+
+            elif choice.startswith("submit"):
+
+                if game.check_win():
+                    game.won = True
+                    game.ongoing = False
+                else:
+                    print("You are not met the requirements to submit the assignment!")
             else:
                 result = location.available_commands[choice]
                 game.current_location_id = result
 
-        if game.player.get_remaining_moves() <= 0:
+        if game.remaining_moves <= 0:
             print("Out of moves!")  # The player run out of moves so the game ends automatically
             game.ongoing = False
 
-        if game.check_win():
-            game.player.set_won(True)
+        elif game.remaining_moves <= 0:
             game.ongoing = False
 
-        elif game.player.get_remaining_moves() <= 0:
-            game.ongoing = False
-
-    if game.player.get_won():
+    if game.won:
         print("You won!")
         username = input("Enter your username for the leaderboard: ").strip()
         final_score = float(game.score())
@@ -368,7 +420,7 @@ if __name__ == "__main__":
         leaderboard.save()
         leaderboard.print()
     else:
-        if game.player.get_remaining_moves() == 0:
+        if game.remaining_moves == 0:
             print("Game over — you ran out of moves.")
         else:
             print("Game over")
