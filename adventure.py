@@ -298,7 +298,7 @@ if __name__ == "__main__":
         game_log.add_event(Event(location.id_num, location.long_description))
 
         # YOUR CODE HERE
-        if location.visited:
+        if not location.visited:
             print(location.long_description)
         else:
             print(location.brief_description)
