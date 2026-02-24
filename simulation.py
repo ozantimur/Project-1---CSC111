@@ -294,5 +294,3 @@ if __name__ == "__main__":
     expected_log = [2, 2, 3, 4, 5, 7, 7, 7, 5, 10, 10, 10, 6, 1, 9, 9, 9]
     sim = AdventureGameSimulation('game_data.json', 2, enhancement3_demo)
     assert expected_log == sim.get_id_log()
-
-
