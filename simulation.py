@@ -209,6 +209,7 @@ if __name__ == "__main__":
     assert expected_log == sim.get_id_log()
 
     # Enhancement demo: shows NPC dialogue + scoring + T-card interaction
+    # Getting max points from Boris and Paul
     enhancement1_demo = [
         'pick up dorm key',
         'exit dorm',
@@ -293,4 +294,62 @@ if __name__ == "__main__":
     ]
     expected_log = [2, 2, 3, 4, 5, 7, 7, 7, 5, 10, 10, 10, 6, 1, 9, 9, 9]
     sim = AdventureGameSimulation('game_data.json', 2, enhancement3_demo)
+    assert expected_log == sim.get_id_log()
+
+    # Enhancement demo4: shows NPC dialogue + scoring + T-card interaction (another possibility in Boris and Paul's)
+    # Exiting dialogue in the very beginning that causes loss in points
+    enhancement4_demo = [
+        'pick up dorm key',
+        'exit dorm',
+        'go west',
+        'exit building',
+        'go north',
+        'talk arnab kumar',
+        '0',
+        'score',
+        'go south',
+        'go south',
+        'talk boris khesin',
+        '0',
+        'score',
+        'go south',
+        'enter bahen centre',
+        'go west',
+        'talk paul he',
+        '0',
+        'score',
+        'inventory'
+    ]
+    expected_log = [2, 2, 3, 4, 5, 7, 7, 7, 5, 10, 10, 10, 6, 1, 9, 9, 9]
+    sim = AdventureGameSimulation('game_data.json', 2, enhancement4_demo)
+    assert expected_log == sim.get_id_log()
+
+    # Enhancement demo5: shows NPC dialogue + scoring + T-card interaction (another possibility in Boris and Paul's)
+    # Interactions with NPCs that results in the player getting negative points, but not the worst case(running away)
+    enhancement5_demo = [
+        'pick up dorm key',
+        'exit dorm',
+        'go west',
+        'exit building',
+        'go north',
+        'talk arnab kumar',
+        '0',
+        'score',
+        'go south',
+        'go south',
+        'talk boris khesin',
+        '1',
+        "4",
+        'score',
+        'go south',
+        'enter bahen centre',
+        'go west',
+        'talk paul he',
+        '1',
+        '0',
+        'score',
+        'inventory'
+    ]
+    expected_log = [2, 2, 3, 4, 5, 7, 7, 7, 5, 10, 10, 10, 6, 1, 9, 9, 9]
+    sim = AdventureGameSimulation('game_data.json', 2, enhancement5_demo)
     assert expected_log == sim.get_id_log()
