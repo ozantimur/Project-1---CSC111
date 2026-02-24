@@ -142,6 +142,109 @@ if __name__ == "__main__":
     # sim = AdventureGameSimulation(...)
     # assert expected_log == sim.get_id_log()
 
+    inventory_demo = [
+        'pick up dorm key',
+        'exit dorm',
+        'enter dorm',
+        'inventory',
+        'exit dorm',
+        'go west',
+        'exit building',
+        'go south',
+        'go south',
+        'enter myhal centre',
+        'pick up laptop charger',
+        'inventory',
+        'exit building',
+        'go north',
+        'go north',
+        'go north',
+        'talk arnab kumar',
+        '0',
+        'enter robarts library',
+        'pick up usb drive',
+        'inventory'
+    ]
+    expected_log = [2, 2, 3, 2, 3, 4, 5, 10, 6, 8, 8, 6, 10, 5, 7, 7, 0, 0]
+    sim = AdventureGameSimulation('game_data.json', 2, inventory_demo)
+    assert expected_log == sim.get_id_log()
+
+    scores_demo = [
+        'pick up dorm key',
+        'exit dorm',
+        'go west',
+        'exit building',
+        'go north',
+        'talk arnab kumar',
+        '0',
+        'enter robarts library',
+        'pick up usb drive',
+        'score',
+        'exit building',
+        'go south',
+        'go south',
+        'go south',
+        'enter bahen centre',
+        'go west',
+        'go south',
+        'pick up lucky uoft mug',
+        'score',
+        'go north',
+        'go east',
+        'exit building',
+        'enter myhal centre',
+        'pick up laptop charger',
+        'score',
+        'exit building',
+        'go north',
+        'go north',
+        'go north',
+        'go south',
+        'enter morrison hall',
+        'go east',
+        'enter dorm',
+        'drop usb drive',
+        'score',
+        'drop laptop charger',
+        'score',
+        'drop lucky uoft mug',
+        'score',
+        'inventory'
+    ]
+    expected_log = [2, 2, 3, 4, 5, 7, 7, 0, 0, 0, 7, 5, 10, 6, 1, 9, 12, 12, 12, 9, 1, 6, 8, 8, 8,
+                    6, 10, 5, 7, 5, 4, 3, 2, 2, 2, 2, 2, 2, 2, 2]
+    sim = AdventureGameSimulation('game_data.json', 2, scores_demo)
+    assert expected_log == sim.get_id_log()
+
+    # Enhancement demo: shows NPC dialogue + scoring + T-card interaction
+    enhancement1_demo = [
+        'pick up dorm key',
+        'exit dorm',
+        'go west',
+        'exit building',
+        'go north',
+        'talk arnab kumar',
+        '0',
+        'score',
+        'go south',
+        'go south',
+        'talk boris khesin',
+        '3',
+        '3',
+        'score',
+        'go south',
+        'enter bahen centre',
+        'go west',
+        'talk paul he',
+        '2',
+        '1',
+        'score',
+        'inventory'
+    ]
+    expected_log = [2, 2, 3, 4, 5, 7, 7, 7, 5, 10, 10, 10, 6, 1, 9, 9, 9]
+    sim = AdventureGameSimulation('game_data.json', 2, enhancement1_demo)
+    assert expected_log == sim.get_id_log()
+
     # scores_demo = [..., "score", ...]
     # expected_log = []
     # sim = AdventureGameSimulation(...)

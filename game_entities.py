@@ -32,8 +32,7 @@ class Location:
         - long_description: A detailed and description shown the first time the player enters the location.
         - available_commands: A dictionary that maps command strings to the id_num of the destination location.
         - items: A list of item names present at this location.
-        - visited: Whether the player has visited this location before.
-        - availability: Whether this location is currently accessible to the player.
+        - visited_availability: A dictionary storing whether this location has been visited and is accessible.
 
     Representation Invariants:
         - name != ""
@@ -51,9 +50,6 @@ class Location:
     available_commands: dict[str, int]
     items: list[str]
     visited_availability: dict[str, bool]
-    # visited: bool
-    # availability: bool
-
 
 @dataclass
 class Item:
@@ -64,6 +60,7 @@ class Item:
         - start_position: The id number of the location where this item spawns in.
         - target_position: The id number of the location where this item is used.
         - available: Whether this item is currently available in the game.
+        - target_points: The number of points earned when this item is dropped at its target position.
 
     Representation Invariants:
         - name != ""
@@ -82,10 +79,10 @@ class NPC:
     """A NPC in our text adventure game world.
 
     Instance Attributes:
-        basic_info: a dictionary that contains the mapping that maps string to the below:
-            - name: The name of this NPC.
-            - location: The id number of the location where this NPC is found.
-            - interacted: Whether the player has already completed dialogue with this NPC.
+        - basic_info: A dictionary mapping strings to the following:
+            - "name": The name of this NPC.
+            - "location": The id number of the location where this NPC is found.
+            - "interacted": Whether the player has already completed dialogue with this NPC.
         - speech: A list of dialogue strings spoken by the NPC in order.
         - options: A list of dictionaries mapping option numbers (as strings)
           to the corresponding option description shown to the player.
@@ -94,8 +91,8 @@ class NPC:
 
 
     Representation Invariants:
-        - name != ""
-        - location >= 0
+        - basic_info["name"] != ""
+        - basic_info["location"] >= 0
         - len(speech) == len(options) == len(results)
         - all(isinstance(line, str) and line != "" for line in speech)
         - all(isinstance(opt, dict) for opt in options)
@@ -169,12 +166,12 @@ class NPC:
 
 
 if __name__ == "__main__":
-    # pass
+    pass
     # When you are ready to check your work with python_ta, uncomment the following lines.
     # (Delete the "#" and space before each line.)
     # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
-    import python_ta
-    python_ta.check_all(config={
-        'max-line-length': 120,
-        'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
-    })
+    # import python_ta
+     # python_ta.check_all(config={
+     #     'max-line-length': 120,
+     #     'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
+     # })

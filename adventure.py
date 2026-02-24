@@ -26,36 +26,27 @@ from leaderboard import Leaderboard
 from player import Player
 
 
-# Note: You may add in other import statements here as needed
-
-# Note: You may add helper functions, classes, etc. below as needed
-
-
 class AdventureGame:
     """A text adventure game class storing all location, item and map data.
 
     Instance Attributes:
-        - current_location_id: The id of the player's current Location.
+        - _locations: A dictionary that maps the id to their location object.
+        - _items: A list of all items in the game.
         - npcs: A list of all NPC objects in the game.
-        - _points: The player's current point score.
-        - _remaining_moves: The number of moves the player has remaining.
+        - current_location_id: The id of the player's current Location.
+        - ongoing: Controls the main loop.
+        - auto_print: Controls whether you print the description automatically.
+        - player: A player object to acquire the methods specific to the player.
 
     Representation Invariants:
         - current_location_id in _locations
-        - all(item in _items for item in _current_items)
-        - _remaining_moves >= 0
     """
-
-    # Private Instance Attributes (do NOT remove these two attributes):
-    #   - _locations: a mapping from location id to Location object.
-    #                       This represents all the locations in the game.
-    #   - _items: a list of Item objects, representing all items in the game.
 
     _locations: dict[int, Location]
     _items: list[Item]
     npcs: list[NPC]
-    current_location_id: int  # Suggested attribute, can be removed
-    ongoing: bool  # Suggested attribute, can be removed
+    current_location_id: int
+    ongoing: bool
     auto_print: bool
     player: Player
 
@@ -69,17 +60,8 @@ class AdventureGame:
         - game_data_file is the filename of a valid game data JSON file
         """
 
-        # NOTES:
-        # You may add parameters/attributes/methods to this class as you see fit.
-
-        # Requirements:
-        # 1. Make sure the Location class is used to represent each location.
-        # 2. Make sure the Item class is used to represent each item.
-
-        # Suggested helper method (you can remove and load these differently if you wish to do so):
         self._locations, self._items, self.npcs = self._load_game_data(game_data_file)
 
-        # Suggested attributes (you can remove and track these differently if you wish to do so):
         self.current_location_id = initial_location_id  # game begins at this location
 
         self.ongoing = True  # whether the game is ongoing
@@ -137,7 +119,6 @@ class AdventureGame:
         If no ID is provided, return the Location object associated with the current location.
         """
 
-        # YOUR CODE BELOW
         if loc_id is not None:
             return self._locations[loc_id]
         else:
@@ -221,8 +202,6 @@ class AdventureGame:
         """
         if desired_item == '':
             return False
-        # print(desired_item in self._locations[self.current_location_id].items)
-        # if desired_item in self._locations[self.current_location_id].items:
         for i in range(len(self._items)):
             # finding the correct item using its name
             if self._items[i].name == desired_item:
@@ -245,12 +224,6 @@ class AdventureGame:
 
         for i in range(len(self._items)):
             if self._items[i].name == desired_item:
-
-                # update the availability of the item
-                # # check if the player has dropped the item at the target location
-                # if self.current_location_id == self._items[i]:
-                #     # if so, reward the player with the corresponding amount of points
-                #     self.points += self._items[i].target_points
 
                 self._items[i].available = True
                 self._items[i].start_position = self.current_location_id
@@ -290,9 +263,9 @@ class AdventureGame:
         Return True iff the player has all the three key items dropped at the dorm
         """
         for any_item in self._items:
-            if any_item.name in {"lucky uoft mug", "laptop charger", "usb drive"}:
-                if any_item.start_position != self.player.get_dorm_location_id():
-                    return False
+            one_of_the_items = any_item.name in {"lucky uoft mug", "laptop charger", "usb drive"}
+            if one_of_the_items and any_item.start_position != self.player.get_dorm_location_id():
+                return False
         return True
 
 
@@ -312,16 +285,12 @@ if __name__ == "__main__":
     menu = ["look", "inventory", "score", "log", "quit"]  # Regular menu options available at each location
     choice = None
     print("You woke up in panic...")
-    # Note: You may modify the code below as needed; the following starter code is just a suggestion
     while game.ongoing:
-        # Note: If the loop body is getting too long, you should split the body up into helper functions
-        # for better organization. Part of your mark will be based on how well-organized your code is.
 
         location = game.get_location()
 
         game_log.add_event(Event(location.id_num, location.long_description), choice)
 
-        # YOUR CODE HERE
         if not game.auto_print:
             if location.id_num in game.player.get_visited_locations():
                 print(location.brief_description)
@@ -344,7 +313,6 @@ if __name__ == "__main__":
             if not item.available and item.name != 't card':
                 print("- drop", item.name)
 
-        # Validate choice
         choice = input("\nEnter action: ").lower().strip()
         clean_input_cutoff = 5
         while (choice not in location.available_commands and choice not in menu
