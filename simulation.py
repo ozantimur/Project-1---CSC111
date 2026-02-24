@@ -353,3 +353,20 @@ if __name__ == "__main__":
     expected_log = [2, 2, 3, 4, 5, 7, 7, 7, 5, 10, 10, 10, 6, 1, 9, 9, 9]
     sim = AdventureGameSimulation('game_data.json', 2, enhancement5_demo)
     assert expected_log == sim.get_id_log()
+
+    # Enhancement demo6: shows Leaderboard in addition to NPC dialogue
+    enhancement6_demo = ['pick up dorm key', 'exit dorm', 'go west', 'exit building', 'go north', 'talk arnab kumar',
+                         '0', 'enter robarts library', 'pick up usb drive', 'exit building', 'go south', 'go south',
+                         'talk boris khesin', '3', '3', 'score', 'go south', 'enter bahen centre',
+                         'go west', 'talk paul he', '1', '1',
+                         'score', 'go south', 'pick up lucky uoft mug', 'go north', 'go east',
+                         'exit building', 'enter myhal centre', 'pick up laptop charger', 'exit building',
+                         'go north', 'go north', 'enter morrison hall', 'go east', 'enter dorm',
+                         'drop usb drive', 'score', 'drop laptop charger', 'score',
+                         'drop lucky uoft mug', 'score', 'submit assignment', 'fake_username1']
+
+    expected_log = [2, 2, 3, 4, 5, 7, 7, 0, 0, 7, 5, 10, 10, 10, 6, 1, 9, 9, 9, 12, 12, 9, 1, 6, 8, 8, 6, 10, 5, 4,
+                    3, 2, 2, 2, 2, 2, 2, 2]
+
+    sim = AdventureGameSimulation('game_data.json', 2, enhancement6_demo)
+    assert expected_log == sim.get_id_log()
