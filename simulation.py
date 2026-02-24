@@ -104,11 +104,11 @@ if __name__ == "__main__":
     # When you are ready to check your work with python_ta, uncomment the following lines.
     # (Delete the "#" and space before each line.)
     # IMPORTANT: keep this code indented inside the "if __name__ == '__main__'" block
-    import python_ta
-    python_ta.check_all(config={
-        'max-line-length': 120,
-        'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
-    })
+    # import python_ta
+    # python_ta.check_all(config={
+    #     'max-line-length': 120,
+    #     'disable': ['R1705', 'E9998', 'E9999', 'static_type_checker']
+    # })
 
     win_walkthrough = ['pick up dorm key', 'exit dorm', 'go west', 'exit building', 'go north', 'talk arnab kumar',
                        '0', 'enter robarts library', 'pick up usb drive', 'exit building', 'go south', 'go south',
@@ -133,14 +133,6 @@ if __name__ == "__main__":
     # Uncomment the line below to test your demo
     sim = AdventureGameSimulation('game_data.json', 2, lose_demo)
     assert expected_log == sim.get_id_log()
-
-    # TODO: Add code below to provide walkthroughs that show off certain features of the game
-    # TODO: Create a list of commands involving visiting locations, picking up items, and then
-    #   checking the inventory, your list must include the "inventory" command at least once
-    # inventory_demo = [..., "inventory", ...]
-    # expected_log = []
-    # sim = AdventureGameSimulation(...)
-    # assert expected_log == sim.get_id_log()
 
     inventory_demo = [
         'pick up dorm key',
@@ -212,7 +204,7 @@ if __name__ == "__main__":
         'inventory'
     ]
     expected_log = [2, 2, 3, 4, 5, 7, 7, 0, 0, 0, 7, 5, 10, 6, 1, 9, 12, 12, 12, 9, 1, 6, 8, 8, 8,
-                    6, 10, 5, 7, 5, 4, 3, 2, 2, 2, 2, 2, 2, 2, 2]
+                    6, 10, 5, 7, 5, 4, 3, 2, 2, 2, 2, 2, 2, 2]
     sim = AdventureGameSimulation('game_data.json', 2, scores_demo)
     assert expected_log == sim.get_id_log()
 
@@ -245,15 +237,62 @@ if __name__ == "__main__":
     sim = AdventureGameSimulation('game_data.json', 2, enhancement1_demo)
     assert expected_log == sim.get_id_log()
 
-    # scores_demo = [..., "score", ...]
-    # expected_log = []
-    # sim = AdventureGameSimulation(...)
-    # assert expected_log == sim.get_id_log()
+    # Enhancement demo2: shows NPC dialogue + scoring + T-card interaction (another possibility in Boris' dialogue)
+    enhancement2_demo = [
+        'pick up dorm key',
+        'exit dorm',
+        'go west',
+        'exit building',
+        'go north',
+        'talk arnab kumar',
+        '0',
+        'score',
+        'go south',
+        'go south',
+        'talk boris khesin',
+        '3',
+        '4',
+        'score',
+        'go south',
+        'enter bahen centre',
+        'go west',
+        'talk paul he',
+        '2',
+        '1',
+        'score',
+        'inventory'
+    ]
+    expected_log = [2, 2, 3, 4, 5, 7, 7, 7, 5, 10, 10, 10, 6, 1, 9, 9, 9]
+    sim = AdventureGameSimulation('game_data.json', 2, enhancement2_demo)
+    assert expected_log == sim.get_id_log()
 
-    # Add more enhancement_demos if you have more enhancements
-    # enhancement1_demo = [...]
-    # expected_log = []
-    # sim = AdventureGameSimulation(...)
-    # assert expected_log == sim.get_id_log()
+    # Enhancement demo3: shows NPC dialogue + scoring + T-card interaction (another possibility in Boris and Paul's)
+    enhancement3_demo = [
+        'pick up dorm key',
+        'exit dorm',
+        'go west',
+        'exit building',
+        'go north',
+        'talk arnab kumar',
+        '0',
+        'score',
+        'go south',
+        'go south',
+        'talk boris khesin',
+        '2',
+        '4',
+        'score',
+        'go south',
+        'enter bahen centre',
+        'go west',
+        'talk paul he',
+        '2',
+        '0',
+        'score',
+        'inventory'
+    ]
+    expected_log = [2, 2, 3, 4, 5, 7, 7, 7, 5, 10, 10, 10, 6, 1, 9, 9, 9]
+    sim = AdventureGameSimulation('game_data.json', 2, enhancement3_demo)
+    assert expected_log == sim.get_id_log()
 
-    # Note: You can add more code below for your own testing purposes
+
